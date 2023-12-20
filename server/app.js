@@ -34,11 +34,5 @@ app.use(limiter);
 // Routing Implement
 app.use("/api/v1", router);
 
-//middleware implement
-app.use((req, res, next) => {
-    // Your authentication logic here
-    req.user = { /* user information */ };
-    next();
-});
 
 module.exports = app;

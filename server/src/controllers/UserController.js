@@ -32,8 +32,9 @@ exports.UserLogin = async (req,res)=>{
                 {$project:{_id:0,email:1,role:1}}
             ]
         )
+        // console.log("user",user)
         if(user.length > 0){
-            let payload =  {exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), data: user[0]['email']}
+            let payload =  {exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), data: user[0]}
             let token = jwt.sign( payload , process.env.SECRET_KEY);
 
             res.status(200).json({status:"success" , token: token ,  data:user})
