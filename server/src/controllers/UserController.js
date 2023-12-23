@@ -1,5 +1,7 @@
 const UsersModel = require("../models/UsersModel");
+const OTPModel = require("../models/OTPModel");
 const jwt = require("jsonwebtoken");
+const SendEmailUtility = require("../utility/SendEmailUtility");
 
 
 
@@ -49,17 +51,27 @@ exports.UserLogin = async (req,res)=>{
     }
 
 }
-exports.UpdateProfile = (req, res) => {
-    let email = req.headers['email'];
-    let reqBody = req.body;
+//Update user
+exports.UpdateProfile = async (req, res) => {
+    try {
+        let email = req.headers['email'];
+        console.log(email)
+        let reqBody = req.body;
 
-    UsersModel.updateOne({ Email: email }, { $set: reqBody })
-        .then((result) => {
-            res.status(200).json({ status: "Success", data: result });
-        })
-        .catch((err) => {
-            res.status(400).json({ status: "Fail", data: err });
-        });
+        let user= await UsersModel.updateOne({ email: email }, { $set: reqBody })
+
+        if(user){
+            res.status(200).json({ status: "success", data: user });
+
+        }
+        else {
+            res.status(400).json({ status: "fail", message: "Update fail" });
+
+        }
+    }
+    catch(err) {
+        res.status(400).json({ status: "fail", data: err });
+    }
 };
 //get profile details
 exports.ProfileDetails = async (req , res)=>{
@@ -68,7 +80,7 @@ exports.ProfileDetails = async (req , res)=>{
 
         let user =await UsersModel.aggregate([
             {$match:{email}},
-            {$project:{_id:1,email:1,name:1,password:1,avatar:1}}
+            {$project:{_id:1,email:1,name:1,password:1,avatar:1,role:1}}
         ])
         if(user.length >0){
             res.status(200).json({status: "success", data: user})
@@ -81,6 +93,76 @@ exports.ProfileDetails = async (req , res)=>{
         console.log(e)
     }
 }
+//get all user details (Admin)
+exports.GetAllUsers = async (req , res)=>{
+    try {
+
+        const totalUser = await UsersModel.countDocuments({role: "user"})
+        const users =await UsersModel.find({role: "user"})
+        if(users.length >0){
+            res.status(200).json({status: "success",totalUser:totalUser , data: users})
+        }
+        else {
+            res.status(400).json({status: "fail", data: "Users not found"})
+        }
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+//get single user details (Admin)
+exports.GetSingleUsers = async (req , res)=>{
+    try {
+        const id = req.params.id;
+        const user =await UsersModel.findById(id)
+        if(!user){
+            res.status(400).json({status: "fail", data: "Users not found"})
+        }
+        else {
+            res.status(200).json({status: "success", data: user})
+        }
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+//Update user Role (Admin)
+exports.UpdateRole = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const role = req.body.role;
+        let user= await UsersModel.findByIdAndUpdate({ _id: id }, { $set: { role: role } },{new :true})
+
+        if(user){
+            res.status(200).json({ status: "success", data: user });
+        }
+        else {
+            res.status(400).json({ status: "fail", message: "Update fail" });
+        }
+    }
+    catch(err) {
+        res.status(400).json({ status: "fail", data: err });
+    }
+};
+//Delete user -- Admin
+exports.DeleteUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const user = await UsersModel.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ status: "fail", message: "User not found" });
+        }
+
+        // Use deleteOne or remove, both work
+        await UsersModel.deleteOne({ _id: id });
+
+        res.status(200).json({ status: "success", message: "Delete success" });
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        res.status(500).json({ status: "error", message: "Internal Server Error" });
+    }
+};
 
 
 
@@ -92,9 +174,9 @@ exports.RecoverVerifyEmail= async (req,res)=>{
 
     try{
         //Email query
-        let UserCount = (await UsersModel.aggregate([
+        const UserCount = (await UsersModel.aggregate([
             {$match:{
-                    Email:email
+                    email:email
                 }},
             {
                 $count:"total"
@@ -103,15 +185,15 @@ exports.RecoverVerifyEmail= async (req,res)=>{
         if(UserCount[0].total > 0){
 
             //OTP insert
-            let CreateOTP = await OTPModel.create({Email:email , Otp : OTPCode})
+            let CreateOTP = await OTPModel.create({email:email , otp : OTPCode})
 
             //Send email
-            let SendEmail = await SendEmailUtility(email , "Your PIN code is =  " + OTPCode , "E-commerce PIN verification.")
+            let SendEmail = await SendEmailUtility(email , "Your verification code is =  " + OTPCode , "E-commerce(MERN) PIN verification.")
 
-            res.status(200).json({status:"Success" , data: SendEmail})
+            res.status(200).json({status:"success" , data: SendEmail})
         }
         else {
-            res.status(200).json({status:"Fail" , data: "No User Found."})
+            res.status(200).json({status:"fail" , data: "No User Found."})
         }
     }
     catch (err) {
@@ -129,9 +211,9 @@ exports.RecoverVerifyOTP= async (req,res)=>{
 
         let OTPCount = (await OTPModel.aggregate([
             {$match:{
-                    Email:email,
-                    Otp : OTPCode,
-                    Status : status
+                    email:email,
+                    otp : OTPCode,
+                    status : status
                 }},
             {
                 $count:"total"
@@ -140,17 +222,17 @@ exports.RecoverVerifyOTP= async (req,res)=>{
 
         if(OTPCount[0].total > 0){
             let OTPUpdate = await OTPModel.updateOne(
-                {Email:email, Otp : OTPCode, Status : status},
-                {Email:email, Otp : OTPCode, Status : statusUpdate}
+                {email:email, otp : OTPCode, status : status},
+                {email:email, otp : OTPCode, status : statusUpdate}
             )
 
-            res.status(200).json({status:"Success" , data: OTPUpdate});
+            res.status(200).json({status:"success" , data: OTPUpdate});
 
         }
 
 
         else {
-            res.status(201).json({status:"Fail" , data: "Invalid OTP."})
+            res.status(201).json({status:"fail" , data: "Invalid OTP."})
         }
 
     }
@@ -159,18 +241,18 @@ exports.RecoverVerifyOTP= async (req,res)=>{
     }
 }
 exports.RecoverResetPassword= async (req,res)=>{
-    let email = req.body['Email'];
-    let OTPCode = req.body['Otp'];
-    let NewPassword = req.body['Password'];
+    let email = req.body['email'];
+    let OTPCode = req.body['otp'];
+    let NewPassword = req.body['password'];
     let statusUpdate = 1;
 
     try{
 
         let OTPUsedCount = await OTPModel.aggregate([
             {$match:{
-                    Email:email,
-                    Otp : OTPCode,
-                    Status : statusUpdate
+                    email:email,
+                    otp : OTPCode,
+                    status : statusUpdate
                 }},
             {
                 $count:"total"
@@ -179,16 +261,16 @@ exports.RecoverResetPassword= async (req,res)=>{
 
         if(OTPUsedCount[0].total > 0){
             let PasswordUpdate = await UsersModel.updateOne(
-                {Email:email},
-                {Password : NewPassword}
+                {email:email},
+                {password : NewPassword}
             )
-            res.status(200).json({status:"Success" , data: PasswordUpdate});
+            res.status(200).json({status:"success" , data: PasswordUpdate});
         }
         else {
-            res.status(201).json({status:"Fail" , data: "Invalid Password."})
+            res.status(201).json({status:"fail" , data: "Invalid Password."})
         }
     }
     catch (err) {
-        res.status(400).json({status:"Fail" , data: err})
+        res.status(400).json({status:"fail" , data: err})
     }
 }

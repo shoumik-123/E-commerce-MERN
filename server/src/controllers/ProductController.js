@@ -1,5 +1,6 @@
 const ProductModel = require("../models/ProductModel")
-const ApiFeatures = require("../utils/apiFeature");
+const UsersModel = require("../models/UsersModel")
+const ApiFeatures = require("../utility/apiFeature");
 
 
 //create Product -- Admin
@@ -20,8 +21,6 @@ exports.createProduct = async (req,res,next)=>{
 
 
 }
-
-
 //get all products
 exports.getAllProducts =async (req,res)=>{
     try {
@@ -44,7 +43,6 @@ exports.getAllProducts =async (req,res)=>{
     }
 
 }
-
 //get Products Details
 exports.getProductDetails = async (req,res,next)=>{
     try{
@@ -61,8 +59,6 @@ exports.getProductDetails = async (req,res,next)=>{
         console.log(e)
     }
 }
-
-
 //Update product -- Admin
 exports.updateProducts = async (req,res,next)=>{
     try{
@@ -88,7 +84,6 @@ exports.updateProducts = async (req,res,next)=>{
         console.log(e)
     }
 }
-
 //Delete product -- Admin
 exports.deleteProducts = async (req, res, next) => {
     try {
@@ -108,3 +103,105 @@ exports.deleteProducts = async (req, res, next) => {
         res.status(500).json({ status: "error", message: "Internal Server Error" });
     }
 };
+//Create review and update review
+exports.createProductReview = async (req , res) =>{
+    try{
+        const email = req.headers['email']
+        const {rating ,comment, productId} = req.body;
+        const user = await UsersModel.findOne({ email: email });
+        const review ={
+            user : user._id,
+            name : user.name,
+            rating : Number(rating),
+            comment,
+        }
+        const product = await ProductModel.findById(productId)
+
+        const isReview = product.reviews.find(
+            (rev)=> rev.user.toString() === user._id.toString()
+        )
+        if (isReview){
+            product.reviews.forEach(rev=>{
+                if(rev.user.toString() === user._id.toString()){
+                    rev.rating=rating
+                    rev.comment=comment
+                }
+            })
+        }
+        else {
+            product.reviews.push(review);
+            product.numOfReviews = product.reviews.length
+        }
+
+        // Calculate the average rating
+        let totalRating = 0;
+        product.reviews.forEach((rev) => {
+            totalRating += rev.rating;
+        });
+        product.ratings = totalRating / product.reviews.length;
+
+        await product.save();   // Save the updated product
+
+        res.status(201).json({ status: 'success', data: product });
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+};
+//Get All Reviews
+exports.getAllReviews = async (req , res) =>{
+    try{
+        const product =await ProductModel.findById(req.query.id)
+
+        if (!product){
+            res.status(400).json({status:"fail" , message:"Product Not Found"})
+        }
+        else {
+            res.status(200).json({status: "success" , reviews : product.reviews})
+        }
+    }
+    catch (e){
+        console.log(e)
+    }
+}
+//Delete review
+exports.deleteReview = async (req , res)=>{
+    try {
+        const productId= req.query.productId
+        const product =await ProductModel.findById(productId)
+        if(!product){
+            res.status(400).json({status:"fail" , message:"Product Not Found"})
+        }
+
+        product.reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
+
+        let totalRating = 0;
+        product.reviews.forEach((rev) => {
+            totalRating += rev.rating;
+        });
+        product.ratings = totalRating / product.reviews.length;
+
+        product.numOfReviews = product.reviews.length;
+
+        await ProductModel.findByIdAndUpdate(
+            productId ,
+            {
+                reviews :product.reviews,
+                ratings :product.ratings ,
+                numOfReviews:product.numOfReviews
+            },
+            {
+                new:true ,
+                runValidators:true,
+                useFindAndModify:false
+            }
+        )
+
+        res.status(200).json({status:"success" , message :"Delete review success"})
+
+    }
+    catch (e){
+        console.log(e)
+    }
+}
