@@ -3,7 +3,7 @@ const UsersModel = require("../models/UsersModel")
 const ApiFeatures = require("../utility/apiFeature");
 
 
-//create Product -- Admin
+//create ProductCard -- Admin
 exports.createProduct = async (req,res,next)=>{
     try {
         let reqBody = req.body;
@@ -49,7 +49,7 @@ exports.getProductDetails = async (req,res,next)=>{
         let id = req.params.id;
         let product = await ProductModel.findById(id)
         if(!product){
-            return res.status(500).json({status:"fail",message:"Product not found"})
+            return res.status(500).json({status:"fail",message:"ProductCard not found"})
         }
         else {
             res.status(200).json({status:"success" , data:product})
@@ -66,7 +66,7 @@ exports.updateProducts = async (req,res,next)=>{
         let reqBody = req.body
         let product = await ProductModel.findById(id)
         if(!product){
-            return res.status(500).json({status:"fail",message:"Product not found"})
+            return res.status(500).json({status:"fail",message:"ProductCard not found"})
         }
         else {
             product = await ProductModel.findByIdAndUpdate(id,reqBody,{
@@ -91,7 +91,7 @@ exports.deleteProducts = async (req, res, next) => {
         const product = await ProductModel.findById(id);
 
         if (!product) {
-            return res.status(404).json({ status: "fail", message: "Product not found" });
+            return res.status(404).json({ status: "fail", message: "ProductCard not found" });
         }
 
         // Use deleteOne or remove, both work
@@ -155,7 +155,7 @@ exports.getAllReviews = async (req , res) =>{
         const product =await ProductModel.findById(req.query.id)
 
         if (!product){
-            res.status(400).json({status:"fail" , message:"Product Not Found"})
+            res.status(400).json({status:"fail" , message:"ProductCard Not Found"})
         }
         else {
             res.status(200).json({status: "success" , reviews : product.reviews})
@@ -171,7 +171,7 @@ exports.deleteReview = async (req , res)=>{
         const productId= req.query.productId
         const product =await ProductModel.findById(productId)
         if(!product){
-            res.status(400).json({status:"fail" , message:"Product Not Found"})
+            res.status(400).json({status:"fail" , message:"ProductCard Not Found"})
         }
 
         product.reviews = product.reviews.filter((rev) => rev._id.toString() !== req.query.id.toString());
