@@ -1,7 +1,12 @@
 import {configureStore} from "@reduxjs/toolkit";
-import settingsReducer from "../state/settings-slice"
+import SettingsSlice from "../state/SettingsSlice.js"
+import ProductSlice from "../state/ProductSlice.js"
 export default configureStore({
     reducer:{
-        settings:settingsReducer
+        settings:SettingsSlice,
+        products :ProductSlice
+
+
+        // cart: cartReducer,
     }
 })

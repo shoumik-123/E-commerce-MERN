@@ -1,21 +1,33 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {CgMouse} from "react-icons/cg";
-import ProductCard from "./ProductCard.jsx";
-import MetaData from "../Layout/MetaData.jsx";
+import ProductCard from "../Product/ProductCard.jsx";
+import {getProducts} from "../../APIRequest/ProductAPI.js";
 
 
-const product ={
-    name : "T-Shirt",
-    images:[{url:"https://static-01.daraz.com.bd/p/38a8e822da9fe774e7381188a8db832a.jpg"}],
-    price : "300",
-    _id:"1232"
-}
+
 
 const Home = () => {
+
+    const [products, setProducts] = useState([]);
+
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const result = await getProducts();
+                setProducts(result);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+
+        fetchProducts();
+
+    }, []);
+
     return (
         <Fragment>
-            <MetaData title="Home Page"/>
             <div className="banner">
                 <p>Welcome to Happy Shopping</p>
                 <h1>FIND AMAZING PRODUCTS BELOW</h1>
@@ -31,15 +43,9 @@ const Home = () => {
             <h2 className="homeHeading">Featured Products</h2>
 
             <div className="container">
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
-                <ProductCard product={product}/>
+                {products.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                ))}
             </div>
         </Fragment>
     );

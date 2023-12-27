@@ -21,14 +21,16 @@ const FullScreenLoader = () => {
 
     return (
         <div>
-            <div className="fullscreen-loader">
-                <div />
+            <div className={loader}>
                 <LoadingBar
                     color="#FDD138"
                     progress={progress}
                     onLoaderFinished={() => setProgress(0)}
-                    className={loader}
+                    // className={fullscreen-loader}
                 />
+                <div className="overlay">
+                    <div className="loading-spinner"></div>
+                </div>
             </div>
         </div>
     );

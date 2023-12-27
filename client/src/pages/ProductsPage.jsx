@@ -1,9 +1,12 @@
 import React from 'react';
+import MetaData from "../components/Layout/MetaData.jsx";
+import Products from "../components/AllProducts/Products.jsx";
 
 const ProductsPage = () => {
     return (
         <div>
-            <h1>Product page</h1>
+            <MetaData title="All Products"/>
+            <Products/>
         </div>
     );
 };
