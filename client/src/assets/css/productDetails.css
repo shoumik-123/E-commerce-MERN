@@ -167,10 +167,10 @@
 /*}*/
 
 .reviewsHeading {
-    color: rgba(255, 255, 255, 0.92);
-    font: 500 24px "Roboto";
+    color: #FDD138;
+    font: 700 42px "Roboto";
     text-align: center;
-    border-bottom: 1px solid rgba(232, 232, 232, 0.22);
+    border-bottom: 1px solid #FDD138;
     padding: 1vmax;
     width: 20vmax;
     margin: auto;

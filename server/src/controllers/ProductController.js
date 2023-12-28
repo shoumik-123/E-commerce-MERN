@@ -25,14 +25,15 @@ exports.createProduct = async (req,res,next)=>{
 exports.getAllProducts =async (req,res)=>{
     try {
         const resultPerPage = 8
-        const productCount = await ProductModel.countDocuments()
+        const productsCount = await ProductModel.countDocuments()
+        const pageCount = Math.ceil(productsCount / resultPerPage);
         const apiFeatures =new ApiFeatures(ProductModel.find(),req.query)
             .search()
             .filter()
             .pagination(resultPerPage)
         const products = await apiFeatures.query;
         if(products){
-            res.status(200).json({status:"success" ,productCount:productCount, data: products})
+            res.status(200).json({status:"success",pageCount:pageCount ,productCount:productsCount, data: products ,resultPerPage:resultPerPage})
         }
         else {
             res.status(400).json({status:"fail" , data:"error"})

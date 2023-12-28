@@ -48,7 +48,7 @@ const ProductDetails = () => {
                 <div>
                     <div className="detailsBlock-1">
                         <h1>{product?.name}</h1>
-                        <p> Product code : ${product?._id}</p>
+                        <p> Product code : #{product?._id}</p>
                     </div>
 
                     <div className="detailsBlock-2">

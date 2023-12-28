@@ -79,6 +79,23 @@
     flex-wrap: wrap;
     justify-content: center;
     max-width: 100%;
+
+}
+
+.seeMore{
+    padding:12px 20px;
+    margin: 0 auto;
+    display: block;
+    background: #FDD138;
+    font: 700 15px "Roboto";
+    border: 1px solid #FDD138;
+
+}
+.seeMore:hover{
+    background: rgba(102, 45, 145, 0.45);
+    border: 1px solid white;
+    color: white;
+
 }
 
 .productCard {

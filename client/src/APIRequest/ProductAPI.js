@@ -17,7 +17,7 @@ export async function getProducts(keyword = "", currentPage = 1, price = [0, 100
         }
         let result = await axios.get(BaseURL + URL);
         store.dispatch(HideLoader())
-        return result.data['data'];
+        return result.data;
     } catch (e) {
         store.dispatch(HideLoader())
         console.error("Error fetching products:", e);
