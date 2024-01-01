@@ -19,7 +19,7 @@ const Footer = () => {
                 <h1>E-commerce </h1>
                 <h2>(ONLINE SHOPPING)</h2>
                 <p>High Quality is our first priority</p>
-                <p>Copyrights 2023 &copy; MD Shabik Yeamin Shoumik</p>
+                <p>Copyrights 2023 &copy; <b>MD Shabik Yeamin Shoumik</b></p>
             </div>
 
             <div className="rightFooter">

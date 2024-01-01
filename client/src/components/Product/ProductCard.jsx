@@ -15,8 +15,8 @@ const ProductCard = ({product}) => {
 
     function trimDescription(description) {
         const words = description.split(' ');
-        if (words.length > 15) {
-            return words.slice(0, 15).join(' ') + '...';
+        if (words.length > 5) {
+            return words.slice(0, 5).join(' ') + '...';
         }
         return description;
     }
@@ -30,7 +30,7 @@ const ProductCard = ({product}) => {
                 </div>
                 <div className="productCardDiv">
                     <h3>{product.name}</h3>
-                    <p>{trimDescription(product.description, 15)}</p>
+                    <p>{trimDescription(product.description, 5)}</p>
                     <div>
                         <ReactStars {...option}/><span>({product.numOfReviews} reviews)</span>
                     </div>

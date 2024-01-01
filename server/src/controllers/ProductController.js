@@ -31,9 +31,24 @@ exports.getAllProducts =async (req,res)=>{
             .search()
             .filter()
             .pagination(resultPerPage)
+
         const products = await apiFeatures.query;
+        // const filteredProductCount = products.length;
+        // let products = await apiFeatures.query;
+        // let filteredProductCount = products.length;
+        // apiFeatures.pagination(resultPerPage)
+
+        // await apiFeatures.query;
         if(products){
-            res.status(200).json({status:"success",pageCount:pageCount ,productCount:productsCount, data: products ,resultPerPage:resultPerPage})
+            res.status(200).json({
+                status:"success",
+                // filteredProductCount:filteredProductCount,
+                pageCount:pageCount ,
+                productCount:productsCount,
+                resultPerPage:resultPerPage,
+                // currentPage,
+                data: products
+            })
         }
         else {
             res.status(400).json({status:"fail" , data:"error"})

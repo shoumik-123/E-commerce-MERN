@@ -19,7 +19,7 @@ const Home = () => {
             try {
                 const result = await getProducts();
                 setProducts(result);
-                // console.log(result['data'])
+                console.log(result)
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
