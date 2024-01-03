@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../redux/store/store.js";
-import SettingsSlice, {HideLoader, ShowLoader} from "../redux/state/SettingsSlice.js";
+import {HideLoader, ShowLoader} from "../redux/state/SettingsSlice.js";
 
 const BaseURL = "http://localhost:8000/api/v1/";
 

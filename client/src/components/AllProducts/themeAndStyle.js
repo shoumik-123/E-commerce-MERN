@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
     },
     slider: {
         width: '100%',
-        margin: '20px 0',
+        // margin: '20px 0',
     },
     formControl: {
         width: '150px',
-        marginTop: theme.spacing(2),
+        // marginTop: theme.spacing(2),
 
     },
 }));

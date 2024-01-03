@@ -2,29 +2,48 @@ const UsersModel = require("../models/UsersModel");
 const OTPModel = require("../models/OTPModel");
 const jwt = require("jsonwebtoken");
 const SendEmailUtility = require("../utility/SendEmailUtility");
-
+const cloudinary = require('cloudinary')
 
 
 
 //Registration
-exports.Registration = async (req, res)=>{
+exports.Registration = async (req, res) => {
     try {
-        let reqBody = req.body;
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale"
+        });
 
-        let user = await UsersModel.create(reqBody)
+        const { name, email, password } = req.body;
 
-        if(user){
-            res.status(200).json({status: "Success", data: user})
+        const existingUser = await UsersModel.findOne({ email }, { email: 1 });
+
+        if (!existingUser) {
+            const user = await UsersModel.create({
+                name,
+                email,
+                password,
+                avatar: {
+                    public_id: myCloud.public_id,
+                    url: myCloud.secure_url
+                }
+            });
+
+            if (user) {
+                res.status(200).json({ status: "success", data: user });
+            } else {
+                res.status(400).json({ status: "fail", data: "Registration Fail" });
+            }
+        } else {
+            res.status(400).json({ status: "fail",email:existingUser, data: "Email already exists" });
         }
-        else {
-            res.status(400).json({status: "Fail", data: "Registration Fail"})
-        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        res.status(500).json({ status: "error", data: "Internal Server Error" });
     }
-    catch (e){
-        console.log(e)
-    }
+};
 
-}
 //login
 exports.UserLogin = async (req,res)=>{
     try {
@@ -40,7 +59,7 @@ exports.UserLogin = async (req,res)=>{
             let token = jwt.sign( payload , process.env.SECRET_KEY);
 
             res.status(200).json({status:"success" , token: token ,  data:user})
-            console.log(user[0].role)
+            // console.log(user[0].role)
         }
         else{
             res.status(401).json({status:"Unauthorized"})

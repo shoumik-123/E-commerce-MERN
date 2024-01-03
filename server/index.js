@@ -1,5 +1,5 @@
 const  app = require('./app')
-
+const cloudinary = require('cloudinary')
 
 require('dotenv').config({path:"./config.env"})
 
@@ -14,6 +14,11 @@ mongoose.connect(process.env.DB_URI)
         console.error("Database Connection Failed", err);
     });
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_AIP_KEY,
+    api_secret: process.env.CLOUDINARY_AIP_SECRET
+});
 
 
 const PORT = process.env.PORT || 8001

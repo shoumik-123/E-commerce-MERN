@@ -33,7 +33,7 @@ const options = {
     profileIcon:true,
     profileIconColor: "rgba(0,0,0)",
     ProfileIconElement: MdAccountCircle,
-    profileIconUrl: "/profile",
+    profileIconUrl: "/login",
     profileIconColorHover: "#5A198CFF",
     profileIconMargin:"10px",
     searchIcon:true,

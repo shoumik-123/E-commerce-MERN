@@ -52,7 +52,7 @@ const SideBar = ({ onPriceChange, onCategoryChange, onSubcategoryChange ,onRatin
     };
     return (
         <Fragment>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={theme} >
                 <div className={classes.root}>
                     <Typography color="primary"><h4>Price</h4></Typography>
                     <Slider
@@ -107,7 +107,7 @@ const SideBar = ({ onPriceChange, onCategoryChange, onSubcategoryChange ,onRatin
                             </StyledSelect>
                         </FormControl>
                     )}
-                    <div>
+                    <div className="ratingDiv">
                         <Typography color="primary" style={{marginTop:'25px'}}><h4>Ratings</h4></Typography>
                         <Slider
                             className={classes.slider}

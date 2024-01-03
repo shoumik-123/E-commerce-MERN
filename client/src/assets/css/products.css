@@ -87,11 +87,12 @@
     width: 100%;
     top: 0;
     overflow-y: auto;
+    min-height: 30vh;
 }
 .filterBox{
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*position: sticky;*/
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     /*top: 0;*/
     /*height: 100vh;*/
     /*overflow-y: auto;*/
@@ -119,6 +120,10 @@
 .filterBox-price{
     width: 300px;
     margin: 20px;
+}
+
+.ratingDiv{
+    width: 100%;
 }
 
 
