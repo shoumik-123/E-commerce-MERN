@@ -87,7 +87,7 @@ const LoginRegistration = () => {
         try {
             const result = await UserLogin(loginEmail, loginPassword);
             if (result) {
-                navigate("/account");
+                window.location.href="/account"
             }
         } catch (error) {
             console.error('An error occurred during login:', error);

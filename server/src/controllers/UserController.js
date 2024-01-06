@@ -13,6 +13,9 @@ exports.Registration = async (req, res) => {
             folder: "avatars",
             width: 150,
             crop: "scale"
+        }).catch((uploadError) => {
+            console.error("Error uploading to Cloudinary:", uploadError);
+            throw uploadError;
         });
 
         const { name, email, password } = req.body;

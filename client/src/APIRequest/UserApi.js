@@ -1,11 +1,11 @@
 import axios from "axios";
 import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state/SettingsSlice.js";
-import {setToken, setUserDetails} from "../helper/SassionHelper.js";
+import {getToken, setToken, setUserDetails} from "../helper/SassionHelper.js";
 import {toast} from "react-toastify";
 
 const BaseURL = "http://localhost:8000/api/v1/";
-
+const AxiosHeader = { headers: { "token-key": getToken() } };
 
 export async function UserRegistration(user){
     try {
@@ -59,7 +59,22 @@ export async function UserLogin(email, password) {
     }
     catch (error) {
         store.dispatch(HideLoader());
-        toast.error("Login Fail")
+        toast.error("Registration First")
         console.log('An error occurred during login:', error);
+    }
+}
+//Get  User Details
+export async function GetUserDetails() {
+    store.dispatch(ShowLoader());
+    try {
+        const URL = BaseURL + "profileDetails";
+
+        const result = await axios.get(URL, AxiosHeader);
+        setUserDetails(result.data.data);
+        console.log(result.data.data);
+        store.dispatch(HideLoader());
+    } catch (e) {
+        store.dispatch(HideLoader());
+        console.log(e);
     }
 }

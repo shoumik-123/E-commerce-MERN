@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import Header from "./components/Layout/Header.jsx";
+import Header from "./components/Layout/Header/Header.jsx";
 import Footer from "./components/Layout/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
@@ -11,14 +11,37 @@ import SearchPage from "./pages/SearchPage.jsx";
 import LoginRegistrationPage from "./pages/LoginRegistratonPage.jsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {getToken, getUserDetails} from "./helper/SassionHelper.js";
+import UserOptions from "./components/Layout/Header/UserOptions.jsx"
+import ProfilePage from "./pages/ProfilePage.jsx";
+
+
+
 function App() {
 
-  return (
+    const isAuthenticated = getToken()
+    const userDetails = getUserDetails();
+    const role = userDetails && userDetails[0] ? userDetails[0].role : false;
+
+
+    return (
       <>
           <BrowserRouter>
               <FullScreenLoader/>
               <Header/>
+              {isAuthenticated && role && (
+                  <UserOptions/>
+              )}
               <Routes>
+
+                  {isAuthenticated ? (
+                      <>
+                      <Route path="/account" element={<ProfilePage/>}></Route>
+
+                      </>
+                  ):(
+                      <></>
+                  )}
                   <Route path="/" element={<HomePage/>}></Route>
                   <Route path="/products" element={<ProductsPage/>}></Route>
                   <Route path="/contact" element={<ContactPage/>}></Route>
