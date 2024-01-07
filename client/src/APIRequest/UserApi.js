@@ -7,6 +7,8 @@ import {toast} from "react-toastify";
 const BaseURL = "http://localhost:8000/api/v1/";
 const AxiosHeader = { headers: { "token-key": getToken() } };
 
+
+//Registration
 export async function UserRegistration(user){
     try {
         store.dispatch(ShowLoader());
@@ -61,6 +63,7 @@ export async function UserLogin(email, password) {
         store.dispatch(HideLoader());
         toast.error("Registration First")
         console.log('An error occurred during login:', error);
+        // return false
     }
 }
 //Get  User Details
@@ -77,4 +80,32 @@ export async function GetUserDetails() {
         store.dispatch(HideLoader());
         console.log(e);
     }
+}
+//update Profile
+
+export async function ProfileUpdate(name,avatar){
+    try {
+        store.dispatch(ShowLoader());
+        const URL = BaseURL + "profileUpdate";
+        const postBody = {
+            name:name,
+            avatar:avatar
+        };
+
+        const result = await axios.post(URL, postBody,AxiosHeader);
+        store.dispatch(HideLoader());
+        if (result.status === 200) {
+            toast.success("Update Success");
+            return true;
+        } else {
+            toast.error("Fail");
+            return false;
+        }
+    }
+    catch (error) {
+        store.dispatch(HideLoader());
+        toast.error("Update Fail");
+        console.log('Response data:', error.response.data);
+    }
+
 }

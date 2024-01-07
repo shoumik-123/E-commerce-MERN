@@ -88,6 +88,10 @@ const LoginRegistration = () => {
             const result = await UserLogin(loginEmail, loginPassword);
             if (result) {
                 window.location.href="/account"
+                // navigate("/account")
+            }
+            else {
+                switchTabs(e, "register")
             }
         } catch (error) {
             console.error('An error occurred during login:', error);

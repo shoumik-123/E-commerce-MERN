@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {getToken, getUserDetails} from "./helper/SassionHelper.js";
 import UserOptions from "./components/Layout/Header/UserOptions.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx";
+import UpdateProfile from "./components/User/UpdateProfile.jsx";
 
 
 
@@ -37,6 +38,7 @@ function App() {
                   {isAuthenticated ? (
                       <>
                       <Route path="/account" element={<ProfilePage/>}></Route>
+                      <Route path="/profileUpdate" element={<UpdateProfile/>}></Route>
 
                       </>
                   ):(

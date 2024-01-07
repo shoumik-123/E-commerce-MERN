@@ -9,20 +9,23 @@ const cloudinary = require('cloudinary')
 //Registration
 exports.Registration = async (req, res) => {
     try {
-        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: "avatars",
-            width: 150,
-            crop: "scale"
-        }).catch((uploadError) => {
-            console.error("Error uploading to Cloudinary:", uploadError);
-            throw uploadError;
-        });
 
         const { name, email, password } = req.body;
 
         const existingUser = await UsersModel.findOne({ email }, { email: 1 });
 
         if (!existingUser) {
+
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: "avatars",
+                width: 150,
+                crop: "scale"
+            }).catch((uploadError) => {
+                console.error("Error uploading to Cloudinary:", uploadError);
+                throw uploadError;
+            });
+
+
             const user = await UsersModel.create({
                 name,
                 email,
@@ -50,6 +53,7 @@ exports.Registration = async (req, res) => {
 //login
 exports.UserLogin = async (req,res)=>{
     try {
+
         let reqBody= req.body;
         let user =await UsersModel.aggregate([
                 {$match:reqBody },
@@ -77,8 +81,26 @@ exports.UserLogin = async (req,res)=>{
 exports.UpdateProfile = async (req, res) => {
     try {
         let email = req.headers['email'];
-        console.log(email)
+
         let reqBody = req.body;
+        // Check if the avatar is included in the request body
+        if (req.body.avatar) {
+            // Upload the new avatar to Cloudinary
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: 'avatars',
+                width: 150,
+                crop: 'scale'
+            }).catch((uploadError) => {
+                console.error('Error uploading to Cloudinary:', uploadError);
+                throw uploadError;
+            });
+
+            // Add the new avatar details to the request body
+            reqBody.avatar = {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url
+            };
+        }
 
         let user= await UsersModel.updateOne({ email: email }, { $set: reqBody })
 
@@ -102,7 +124,7 @@ exports.ProfileDetails = async (req , res)=>{
 
         let user =await UsersModel.aggregate([
             {$match:{email}},
-            {$project:{_id:1,email:1,name:1,password:1,avatar:1,role:1}}
+            {$project:{_id:1,email:1,name:1,password:1,avatar:1,role:1,createdAt :1}}
         ])
         if(user.length >0){
             res.status(200).json({status: "success", data: user})

@@ -24,7 +24,7 @@ const Profile = () => {
                 <div>
                     <h1>My Profile</h1>
                     <img src={getUserDetails()[0]?.avatar?.url || profilePNG} alt={getUserDetails()[0]?.name}/>
-                    <Link to="/profileDetails">Edit Profile</Link>
+                    <Link to="/profileUpdate">Edit Profile</Link>
                 </div>
                 <div>
                     <div>
