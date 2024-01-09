@@ -11,15 +11,7 @@ const UpdateProfile = () => {
     const [avatar, setAvatar] = useState(getUserDetails()[0]?.avatar?.url);
     const [name, setName] = useState(getUserDetails()[0]?.name);
     const [oldAvatarPublicId, setOldAvatarPublicId] = useState(null);
-    useEffect(() => {
-        if (getToken()) {
-
-        }
-    }, []);
-
-
     const navigate =useNavigate()
-    const [selectedAvatar, setSelectedAvatar] = useState(null);
 
     const registerDataChange = (e) => {
         if (e.target.name === "avatar") {
@@ -58,7 +50,7 @@ const UpdateProfile = () => {
 
             if (result) {
                 navigate("/account");
-                // window.location.href("/account")
+                // window.location.reload()
             }
         }
         catch (error) {

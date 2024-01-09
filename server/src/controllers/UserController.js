@@ -122,57 +122,7 @@ exports.UpdateProfile = async (req, res) => {
         res.status(400).json({ status: "fail", data: err });
     }
 };
-// exports.UpdateProfile = async (req, res) => {
-//     try {
-//         const email = req.headers['email'];
-//         const reqBody = req.body;
-//         console.log("reqBody.avatar"  , reqBody.avatar)
-//
-//         if (reqBody.avatar) {
-//             const user = await UsersModel.findOne({ email: email });
-//
-//             if (!user) {
-//                 return res.status(404).json({ status: "fail", message: "User not found" });
-//             }
-//
-//             const imageId = user.avatar.public_id;
-//             console.log("reqBody", reqBody , "imageId ",imageId)
-//
-//             // Delete the old avatar from Cloudinary
-//             await cloudinary.v2.uploader.destroy(imageId);
-//
-//             // Upload the new avatar to Cloudinary
-//             const myCloud = await cloudinary.v2.uploader.upload(reqBody.avatar, {
-//                 folder: 'avatars',
-//                 width: 150,
-//                 crop: 'scale'
-//             }).catch((uploadError) => {
-//                 console.error('Error uploading to Cloudinary:', uploadError);
-//                 throw uploadError;
-//             });
-//
-//             // Update the user's avatar details in the request body
-//             reqBody.avatar = {
-//                 public_id: myCloud.public_id,
-//                 url: myCloud.secure_url
-//             };
-//         }
-//
-//         // Update the user profile in the database
-//         const updatedUser = await UsersModel.findOneAndUpdate({ email: email }, { $set: reqBody }, { new: true });
-//
-//         console.log("updateUser",updatedUser)
-//
-//         if (updatedUser) {
-//             res.status(200).json({ status: "success", data: updatedUser });
-//         } else {
-//             res.status(400).json({ status: "fail", message: "Update failed" });
-//         }
-//     } catch (err) {
-//         console.error('Error updating profile:', err);
-//         res.status(500).json({ status: "error", message: "Internal server error" });
-//     }
-// };
+
 
 //get profile details
 exports.ProfileDetails = async (req , res)=>{

@@ -74,15 +74,15 @@ export async function GetUserDetails() {
 
         const result = await axios.get(URL, AxiosHeader);
         setUserDetails(result.data.data);
-        console.log(result.data.data);
         store.dispatch(HideLoader());
     } catch (e) {
         store.dispatch(HideLoader());
         console.log(e);
     }
 }
-//update Profile
 
+
+//update Profile
 export async function ProfileUpdate(name,avatar,oldAvatarPublicId){
     try {
         store.dispatch(ShowLoader());
@@ -92,7 +92,6 @@ export async function ProfileUpdate(name,avatar,oldAvatarPublicId){
             avatar:avatar,
             oldAvatarPublicId:oldAvatarPublicId
         };
-        console.log(postBody,"postbody")
 
         const result = await axios.post(URL, postBody,AxiosHeader);
         store.dispatch(HideLoader());
@@ -107,6 +106,35 @@ export async function ProfileUpdate(name,avatar,oldAvatarPublicId){
     catch (error) {
         store.dispatch(HideLoader());
         toast.error("Update Fail");
+        console.log('Response data:', error.response.data);
+    }
+
+}
+
+
+//update Password
+export async function PasswordUpdate(password){
+    try {
+        store.dispatch(ShowLoader());
+        const URL = BaseURL + "profileUpdate";
+        const postBody = {
+            password:password,
+
+        };
+
+        const result = await axios.post(URL, postBody,AxiosHeader);
+        store.dispatch(HideLoader());
+        if (result.status === 200) {
+            toast.success("Password  Updated");
+            return true;
+        } else {
+            toast.error("Fail");
+            return false;
+        }
+    }
+    catch (error) {
+        store.dispatch(HideLoader());
+        toast.error("Password Update Fail");
         console.log('Response data:', error.response.data);
     }
 
