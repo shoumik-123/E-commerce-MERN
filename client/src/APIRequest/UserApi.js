@@ -83,14 +83,16 @@ export async function GetUserDetails() {
 }
 //update Profile
 
-export async function ProfileUpdate(name,avatar){
+export async function ProfileUpdate(name,avatar,oldAvatarPublicId){
     try {
         store.dispatch(ShowLoader());
         const URL = BaseURL + "profileUpdate";
         const postBody = {
             name:name,
-            avatar:avatar
+            avatar:avatar,
+            oldAvatarPublicId:oldAvatarPublicId
         };
+        console.log(postBody,"postbody")
 
         const result = await axios.post(URL, postBody,AxiosHeader);
         store.dispatch(HideLoader());

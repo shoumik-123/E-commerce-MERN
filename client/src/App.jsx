@@ -15,6 +15,7 @@ import {getToken, getUserDetails} from "./helper/SassionHelper.js";
 import UserOptions from "./components/Layout/Header/UserOptions.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx";
 import UpdateProfile from "./components/User/UpdateProfile.jsx";
+import UpdatePassword from "./components/User/UpdatePassword.jsx";
 
 
 
@@ -39,6 +40,7 @@ function App() {
                       <>
                       <Route path="/account" element={<ProfilePage/>}></Route>
                       <Route path="/profileUpdate" element={<UpdateProfile/>}></Route>
+                      <Route path="/password/update" element={<UpdatePassword/>}></Route>
 
                       </>
                   ):(

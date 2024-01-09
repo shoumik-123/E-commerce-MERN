@@ -9,8 +9,8 @@ import {ProfileUpdate} from "../../APIRequest/UserApi.js";
 const UpdateProfile = () => {
 
     const [avatar, setAvatar] = useState(getUserDetails()[0]?.avatar?.url);
-    const [name, setName] = useState(getUserDetails()[0]?.name)
-
+    const [name, setName] = useState(getUserDetails()[0]?.name);
+    const [oldAvatarPublicId, setOldAvatarPublicId] = useState(null);
     useEffect(() => {
         if (getToken()) {
 
@@ -29,6 +29,7 @@ const UpdateProfile = () => {
                 if (file.type.startsWith("image/")) {
                     reader.onload = () => {
                         if (reader.readyState === 2) {
+                            setOldAvatarPublicId(getUserDetails()[0]?.avatar?.public_id);
                             setAvatar(reader.result);
                         }
                     };
@@ -53,7 +54,7 @@ const UpdateProfile = () => {
             console.log(name, avatar);
 
             // Make sure to use the selectedAvatar, not the avatar state
-            const result = await ProfileUpdate(name, avatar);
+            const result = await ProfileUpdate(name, avatar  ,oldAvatarPublicId);
 
             if (result) {
                 navigate("/account");
