@@ -12,6 +12,18 @@ class SessionHelper{
     getUserDetails(){
         return JSON.parse(localStorage.getItem("UserDetails"))
     }
+//cart
+
+
+    setCart(cartItems) {
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
+
+    getCart() {
+        const storedCartItems = localStorage.getItem("cartItems");
+        return storedCartItems ? JSON.parse(storedCartItems) : [];
+    }
+
 
 
 
@@ -35,4 +47,4 @@ class SessionHelper{
     }
 }
 
-export const {setToken , getToken , setUserDetails ,getUserDetails,removeSession,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
+export const {setToken , getToken , setUserDetails ,getUserDetails,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();

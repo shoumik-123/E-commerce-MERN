@@ -19,7 +19,7 @@ router.get("/admin/getSingleUser/:id",AuthVerifyMiddleware,  authorizeRoles('adm
 router.post("/admin/updateRole/:id",AuthVerifyMiddleware,  authorizeRoles('admin') ,UsersController.UpdateRole)
 router.post("/admin/deleteUser/:id",AuthVerifyMiddleware,  authorizeRoles('admin') ,UsersController.DeleteUser)
 
-//ProductCard API
+//ProductCart API
 router.post("/admin/product/new",AuthVerifyMiddleware, authorizeRoles('admin'), ProductController.createProduct)        //--Admin
 router.get("/products",ProductController.getAllProducts)
 router.get("/product/:id",ProductController.getProductDetails)

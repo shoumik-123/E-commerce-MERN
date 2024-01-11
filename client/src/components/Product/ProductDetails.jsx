@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { getProductDetails } from '../../APIRequest/ProductAPI.js';
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard.jsx";
+import {addItemToCart} from "../../APIRequest/CartApi.js";
+import {toast} from "react-toastify";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -14,7 +16,6 @@ const ProductDetails = () => {
             try {
                 const result = await getProductDetails(id);
                 setProduct(result);
-                console.log(result); // Use the updated result here
             } catch (e) {
                 console.error('Error fetching product:', e);
             }
@@ -31,7 +32,26 @@ const ProductDetails = () => {
         value: product?.ratings ?? 0,
         inHalf: true,
     };
+    const [quantity, setQuantity] = useState(1)
 
+    const DecreaseQuantity = () => {
+        setQuantity((prevQuantity) =>
+            Math.max(prevQuantity - 1, 1)
+        );
+    };
+
+    const IncreaseQuantity = () => {
+        setQuantity((prevQuantity) =>
+            Math.min(prevQuantity + 1, product?.stock || 1)
+        );
+    };
+
+    const addToCartHandler =async () => {
+        const result =await addItemToCart(id ,  quantity)
+        if (result){
+            toast.success("Item Added to Cart")
+        }
+    };
     return (
         <Fragment>
             <div className="productDetails">
@@ -60,16 +80,15 @@ const ProductDetails = () => {
                         <h1>{`৳ ${product?.price}`}</h1>
                         <div className="detailsBlock-3-1">
                             <div className="detailsBlock-3-1-1">
-                                <button>-</button>
-                                <input type="number" value="1"/>
-                                <button>+</button>
+                                <button onClick={DecreaseQuantity}>-</button>
+                                <input type="number" value={quantity} readOnly/>
+                                <button onClick={IncreaseQuantity}>+</button>
                             </div>
-                            {" "}
-                            <button>Add To Cart</button>
+                            <button onClick={addToCartHandler}>Add To Cart</button>
                         </div>
 
                         <p>
-                            Status : {" "}
+                            Status :
                             <b className={product?.stock < 1 ? "redColor" : "greenColor"}>
                                 {product?.stock < 1 ? "Out Of Stock" : "In Stock"}
                             </b>

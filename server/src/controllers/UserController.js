@@ -49,7 +49,6 @@ exports.Registration = async (req, res) => {
         res.status(500).json({ status: "error", data: "Internal Server Error" });
     }
 };
-
 //login
 exports.UserLogin = async (req,res)=>{
     try {
@@ -122,8 +121,6 @@ exports.UpdateProfile = async (req, res) => {
         res.status(400).json({ status: "fail", data: err });
     }
 };
-
-
 //get profile details
 exports.ProfileDetails = async (req , res)=>{
     try {
@@ -219,38 +216,61 @@ exports.DeleteUser = async (req, res, next) => {
 
 
 //For reset password
-exports.RecoverVerifyEmail= async (req,res)=>{
+exports.RecoverVerifyEmail = async (req, res) => {
     let email = req.params.email;
-    let OTPCode = Math.floor(100000 + Math.random() *  900000)
+    let OTPCode = Math.floor(100000 + Math.random() * 900000);
 
-    try{
-        //Email query
-        const UserCount = (await UsersModel.aggregate([
-            {$match:{
-                    email:email
-                }},
-            {
-                $count:"total"
+    const maxRetries = 3;
+    let retries = 0;
+
+    while (retries < maxRetries) {
+        try {
+            // Email query
+            const UserCount = await UsersModel.aggregate([
+                {
+                    $match: {
+                        email: email,
+                    },
+                },
+                {
+                    $count: "total",
+                },
+            ]);
+
+            if (UserCount[0].total > 0) {
+                // OTP insert
+                let CreateOTP = await OTPModel.create({ email: email, otp: OTPCode });
+
+                // Send email
+                let SendEmail = await SendEmailUtility(
+                    email,
+                    "Your verification code is = " + OTPCode,
+                    "E-commerce(MERN) PIN verification."
+                );
+
+                res.status(200).json({ status: "success", data: SendEmail });
+                break; // Exit the loop on success
+            } else {
+                res.status(200).json({ status: "fail", data: "No User Found." });
+                break; // Exit the loop since no user is found
             }
-        ]))
-        if(UserCount[0].total > 0){
+        } catch (err) {
+            console.error(err);
 
-            //OTP insert
-            let CreateOTP = await OTPModel.create({email:email , otp : OTPCode})
+            if (retries < maxRetries - 1) {
+                // Retry after a short delay
+                console.log(`Retrying in 2 seconds (Retry ${retries + 1})`);
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+            } else {
+                // Reached max retries, send error response
+                res.status(500).json({ status: "error", data: "Max retries reached" });
+            }
 
-            //Send email
-            let SendEmail = await SendEmailUtility(email , "Your verification code is =  " + OTPCode , "E-commerce(MERN) PIN verification.")
-
-            res.status(200).json({status:"success" , data: SendEmail})
-        }
-        else {
-            res.status(200).json({status:"fail" , data: "No User Found."})
+            retries++;
         }
     }
-    catch (err) {
-        res.status(400).json({status:"Fail" , data: err})
-    }
-}
+};
+
 exports.RecoverVerifyOTP= async (req,res)=>{
     let email = req.params.email;
     let OTPCode = req.params.otp;

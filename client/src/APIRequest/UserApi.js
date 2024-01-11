@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state/SettingsSlice.js";
-import {getToken, setToken, setUserDetails} from "../helper/SassionHelper.js";
+import {getToken, setEmail, setOTP, setToken, setUserDetails} from "../helper/SassionHelper.js";
 import {toast} from "react-toastify";
 
 const BaseURL = "http://localhost:8000/api/v1/";
@@ -136,6 +136,82 @@ export async function PasswordUpdate(password){
         store.dispatch(HideLoader());
         toast.error("Password Update Fail");
         console.log('Response data:', error.response.data);
+    }
+
+}
+
+
+
+
+//Recovery Password
+export async function RecoverVerifyEmail(email) {
+    try {
+        store.dispatch(ShowLoader())
+        let URL = BaseURL +"recoverVerifyEmail/"+email;
+        const result = await axios.get(URL)
+
+        console.log(result)
+
+        if(result){
+            store.dispatch(HideLoader())
+            if(result.status===200){
+                if(result.data[['status']] ==="Fail"){
+                    toast.error("No user Found")
+                    return false;
+                }
+                else {
+                    setEmail(email)
+                    toast.info("A 6 Digit verification code has been sent to your email address. ");
+                    return true;
+                }
+            }
+            else {
+                toast.error("Something Wrong")
+            }
+        }
+    }
+    catch(err){
+        store.dispatch(HideLoader())
+        toast.error("Something Wrong")
+        console.log(err)
+        return false;
+    }
+}
+
+//Verify OTP
+export async function RecoverVerifyOTP(email,OTP) {
+    try {
+        store.dispatch(ShowLoader())
+
+        let URL = BaseURL +  "recoverVerifyOTP/" + email +"/"+OTP;
+        const result = await axios.get(URL)
+
+        if (result){
+            store.dispatch(HideLoader())
+
+            if(result.status===200){
+                if (result.data['status']==="Fail"){
+                    toast.error("Invalid OTP")
+                    return false;
+                }
+                else {
+                    setOTP(OTP);
+                    toast.success("Code Verification Success");
+                    return true;
+                }
+
+            }
+            else {
+                toast.error("Something Wrong")
+                return false
+            }
+        }
+    }
+    catch(e){
+        store.dispatch(HideLoader())
+        toast.error("Something Wrong")
+        console.log(e)
+        return false;
     }
 
 }

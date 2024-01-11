@@ -16,6 +16,11 @@ import UserOptions from "./components/Layout/Header/UserOptions.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx";
 import UpdateProfile from "./components/User/UpdateProfile.jsx";
 import UpdatePassword from "./components/User/UpdatePassword.jsx";
+import SendOtpPage from "./pages/ForgetPassword/SendOtpPage.jsx";
+import VerifyOtpPage from "./pages/ForgetPassword/VerifyOtpPage.jsx";
+import CreatePasswordPage from "./pages/ForgetPassword/CreatePasswordPage.jsx";
+import ForgetPasswordPage from "./pages/ForgetPassword/ForgetPasswordPage.jsx";
+import CartPage from "./pages/CartPage.jsx";
 
 
 
@@ -38,13 +43,19 @@ function App() {
 
                   {isAuthenticated ? (
                       <>
-                      <Route path="/account" element={<ProfilePage/>}></Route>
-                      <Route path="/profileUpdate" element={<UpdateProfile/>}></Route>
-                      <Route path="/password/update" element={<UpdatePassword/>}></Route>
+                          <Route path="/account" element={<ProfilePage/>}></Route>
+                          <Route path="/profileUpdate" element={<UpdateProfile/>}></Route>
+                          <Route path="/password/update" element={<UpdatePassword/>}></Route>
 
                       </>
                   ):(
-                      <></>
+                      <>
+                          <Route path="/login" element={<LoginRegistrationPage/>}></Route>
+                          <Route path="/password/forgot/" element={<ForgetPasswordPage/>}></Route>
+                          <Route path="/sendOtp" element={<SendOtpPage/>}></Route>
+                          <Route path="/verifyOtp" element={<VerifyOtpPage/>}></Route>
+                          <Route path="/createPassword" element={<CreatePasswordPage/>}></Route>
+                      </>
                   )}
                   <Route path="/" element={<HomePage/>}></Route>
                   <Route path="/products" element={<ProductsPage/>}></Route>
@@ -53,7 +64,7 @@ function App() {
                   <Route path="/product/:id" element={<ProductDetailsPage/>}></Route>
                   <Route path="/search" element={<SearchPage/>}></Route>
                   <Route path="/products/:keyword" element={<ProductsPage/>}></Route>
-                  <Route path="/login" element={<LoginRegistrationPage/>}></Route>
+                  <Route path="/cart" element={<CartPage/>}></Route>
               </Routes>
               <Footer/>
               <ToastContainer
