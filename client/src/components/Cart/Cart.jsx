@@ -18,7 +18,6 @@ const Cart = () => {
 
     const increaseQuantity = async (id, quantity, stock) => {
         const newQty = quantity + 1;
-
         if (stock >= newQty) {
             await addItemToCart(id, newQty);
             setCartItems(getCart());

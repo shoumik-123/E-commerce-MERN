@@ -27,10 +27,8 @@ export async function addItemToCart(id, quantity) {
         const existingProductIndex = existingCartItems.findIndex(item => item.id === cartItem.id);
 
         if (existingProductIndex !== -1) {
-            // If the product exists, update its quantity
             existingCartItems[existingProductIndex].quantity += quantity;
         } else {
-            // If the product doesn't exist, add it to the cart
             existingCartItems.push(cartItem);
         }
         setCart(existingCartItems);
