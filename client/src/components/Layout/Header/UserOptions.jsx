@@ -8,7 +8,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import {getUserDetails, removeSession} from "../../../helper/SassionHelper.js";
+import {getCart, getUserDetails, removeSession, setCart} from "../../../helper/SassionHelper.js";
 import {toast} from "react-toastify";
 const UserOptions = () => {
     const [open, setOpen] = useState(false);
@@ -22,7 +22,7 @@ const UserOptions = () => {
         {
             icon: (
                 <ShoppingCartIcon
-                    style={{ color: "tomato" }}
+                    style={{ color:getCart().length  >  0 ? "#662D91" :"unset"}}
                 />
             ),
             name: `Cart`,

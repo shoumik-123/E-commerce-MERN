@@ -27,7 +27,7 @@ export async function addItemToCart(id, quantity) {
         const existingProductIndex = existingCartItems.findIndex(item => item.id === cartItem.id);
 
         if (existingProductIndex !== -1) {
-            existingCartItems[existingProductIndex].quantity += quantity;
+            existingCartItems[existingProductIndex].quantity = quantity;
         } else {
             existingCartItems.push(cartItem);
         }
@@ -40,5 +40,23 @@ export async function addItemToCart(id, quantity) {
         store.dispatch(HideLoader());
         console.error("Error adding item to cart:", e);
         return false;
+    }
+}
+
+//remove from  cart
+
+export async function removeItemFromCart(id,setCartItems) {
+    store.dispatch(ShowLoader());
+
+    try {
+        const currentCart = getCart()
+        const updatedCart = currentCart.filter(item => item.id !== id);
+        setCart(updatedCart);
+        setCartItems(updatedCart);
+        store.dispatch(HideLoader());
+    } catch (error) {
+        store.dispatch(HideLoader());
+        console.error('Error removing item from cart:', error);
+        throw error;
     }
 }

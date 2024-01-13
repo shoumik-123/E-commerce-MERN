@@ -52,14 +52,14 @@ const LoginRegistration = () => {
     };
 
     let navigate = useNavigate()
-
-    useEffect(() => {
-        const isAuthenticated = getToken();
-
-        if (isAuthenticated) {
-            navigate("/account");
-        }
-    }, [navigate]);
+    //
+    // useEffect(() => {
+    //     const isAuthenticated = getToken();
+    //
+    //     if (isAuthenticated) {
+    //         navigate("/account");
+    //     }
+    // }, [navigate]);
 
 
 
@@ -87,8 +87,15 @@ const LoginRegistration = () => {
         try {
             const result = await UserLogin(loginEmail, loginPassword);
             if (result) {
-                window.location.href="/account"
-                // navigate("/account")
+                const redirectParam = new URLSearchParams(location.search).get('redirect');
+
+                if (redirectParam) {
+                    navigate(redirectParam, { replace: true });
+                }
+
+                else {
+                    window.location.href="/account"
+                }
             }
             else {
                 switchTabs(e, "register")
