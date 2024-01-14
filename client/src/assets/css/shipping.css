@@ -1,0 +1,143 @@
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-5deg); }
+    50% { transform: translateX(5px) rotate(5deg); }
+    75% { transform: translateX(-5px) rotate(-5deg); }
+    100% { transform: translateX(0); }
+}
+
+.shippingContainer {
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: linear-gradient(55deg, rgba(125, 125, 126, 0.99) 0%, rgb(14, 14, 14) 100%);
+    height: 100vh;
+    margin-top: 55px;
+    margin-bottom: -30px;
+}
+
+.shippingBox {
+    background: linear-gradient(312deg, rgba(89, 89, 89, 0.93) 0%, rgb(14, 14, 14) 100%);
+    color: white;
+    width: 25vw;
+    height: 80vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.56);
+    animation: shake 0.5s ease-in-out;
+}
+
+.shippingHeading {
+    text-align: center;
+    font: 400 1.3vmax "Roboto";
+    padding: 1.3vmax;
+    border-bottom: 1px solid #fff;
+    width: 50%;
+    margin: auto;
+}
+
+.shippingForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: 2vmax;
+    justify-content: space-evenly;
+    height: 80%;
+    transition: all 0.5s;
+}
+
+.shippingForm > div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.shippingForm > div > input,
+.shippingForm > div > select {
+    padding:16px 20px 16px 50px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 4px;
+    font: 300 16px cursive;
+    outline: none;
+}
+
+.shippingForm > div > svg {
+    position: absolute;
+    transform: translateX(16px);
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.623);
+}
+
+.shippingBtn {
+    border: none;
+    background-color: #FDD138;
+    color: black;
+    font: 500 16px "Roboto";
+    width: 100%;
+    padding: 0.8vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    border-radius: 4px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+}
+
+.shippingBtn:hover {
+    background-color: #662D91;
+    color: white;}
+
+@media screen and (max-width: 600px) {
+    .shippingBox {
+        width: 100vw;
+        height: 95vh;
+    }
+
+    .shippingHeading {
+        font: 400 6vw "Roboto";
+        padding: 5vw;
+    }
+
+    .shippingForm {
+        padding: 11vw;
+    }
+
+    .shippingForm > div > input,
+    .shippingForm > div > select {
+        padding: 5vw 10vw;
+        font: 300 4vw cursive;
+    }
+
+    .shippingForm > div > svg {
+        font-size: 6vw;
+        transform: translateX(3vw);
+    }
+
+    .shippingBtn {
+        font: 300 4vw "Roboto";
+        padding: 4vw;
+    }
+}
+
+
+
+/*//CheckOut Step*/
+
+.MuiStepConnector-line {
+    display: none !important;
+}
+
+.MuiStepConnector-root {
+    height: 1px;
+    background-color: rgba(47, 47, 47, 0.52);
+}
+
+.MuiStepConnector-active,
+.MuiStepConnector-completed {
+    background-color: #662D91;
+}

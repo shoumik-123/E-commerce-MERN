@@ -21,6 +21,7 @@ import VerifyOtpPage from "./pages/ForgetPassword/VerifyOtpPage.jsx";
 import CreatePasswordPage from "./pages/ForgetPassword/CreatePasswordPage.jsx";
 import ForgetPasswordPage from "./pages/ForgetPassword/ForgetPasswordPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
+import ShippingPage from "./pages/ShippingPage.jsx";
 
 
 
@@ -47,6 +48,8 @@ function App() {
                           <Route path="/profileUpdate" element={<UpdateProfile/>}></Route>
                           <Route path="/password/update" element={<UpdatePassword/>}></Route>
                           <Route path="/login" element={<Navigate to="/account" />} />
+                          <Route path="/login/shipping" element={<Navigate to="/shipping" />} />
+                          <Route path="/shipping" element={<ShippingPage />} />
 
                       </>
                   ):(
@@ -66,6 +69,8 @@ function App() {
                   <Route path="/search" element={<SearchPage/>}></Route>
                   <Route path="/products/:keyword" element={<ProductsPage/>}></Route>
                   <Route path="/cart" element={<CartPage/>}></Route>
+
+
               </Routes>
               <Footer/>
               <ToastContainer

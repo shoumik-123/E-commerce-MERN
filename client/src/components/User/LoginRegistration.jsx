@@ -4,7 +4,7 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import {Link, useNavigate} from "react-router-dom";
 import profilePng from "../../assets/images/profile.png"
-import {UserLogin, UserRegistration} from "../../APIRequest/UserApi.js";
+import {GetUserDetails, UserLogin, UserRegistration} from "../../APIRequest/UserApi.js";
 import {getToken} from "../../helper/SassionHelper.js";
 
 
@@ -91,10 +91,9 @@ const LoginRegistration = () => {
 
                 if (redirectParam) {
                     navigate(redirectParam, { replace: true });
-                }
-
-                else {
-                    window.location.href="/account"
+                    window.location.reload()
+                } else {
+                    navigate("/shipping", { replace: true });
                 }
             }
             else {
@@ -111,7 +110,8 @@ const LoginRegistration = () => {
         try {
             const result = await UserRegistration(user)
             if(result){
-                switchTabs(e, "login")            }
+                switchTabs(e, "login")
+            }
         }
         catch (e) {
             console.log(e)
