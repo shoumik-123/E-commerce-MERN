@@ -2,7 +2,7 @@ const OrderModel = require("../models/OrderModel")
 const UsersModel = require("../models/UsersModel")
 const ProductModel = require("../models/ProductModel")
 
-//Create New Order
+//Create New ConfirmOrder
 exports.NewOrder = async (req,res)=>{
     try {
         const {
@@ -35,7 +35,7 @@ exports.NewOrder = async (req,res)=>{
             res.status(200).json({status:"success" , data : order})
         }
         else {
-            res.status(400).json({status:"fail" , data : "Order does not created"})
+            res.status(400).json({status:"fail" , data : "ConfirmOrder does not created"})
         }
     }
     catch (e){
@@ -79,7 +79,7 @@ exports.GetSingleOrder = async (req,res)=>{
         const order = await OrderModel.findById(req.params.id)
 
         if(!order){
-            res.status(400).json({status:"fail" , data : "Order not found with this Id"})
+            res.status(400).json({status:"fail" , data : "ConfirmOrder not found with this Id"})
         }
         else {
             res.status(200).json({status:"success" , data : order})
@@ -116,7 +116,7 @@ exports.UpdateOrder = async (req,res)=>{
     try {
         const order = await OrderModel.findById(req.params.id);
         if (!order) {
-            return res.status(400).json({ message: "Order not found" });
+            return res.status(400).json({ message: "ConfirmOrder not found" });
         }
 
         if(order.orderStatus === "Delivered"){
@@ -137,7 +137,7 @@ exports.UpdateOrder = async (req,res)=>{
 
         await order.save({validateBeforeSave:false})
 
-        res.status(200).json({ message: "Order updated successfully" ,data:order});
+        res.status(200).json({ message: "ConfirmOrder updated successfully" ,data:order});
     }
     catch (e){
         console.log(e)
@@ -166,7 +166,7 @@ exports.DeleteOrder = async (req,res)=>{
         const order = await OrderModel.findById(req.params.id)
 
         if (!order) {
-            return res.status(400).json({ message: "Order not found" });
+            return res.status(400).json({ message: "ConfirmOrder not found" });
         }
 
         await order.deleteOne()

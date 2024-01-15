@@ -30,12 +30,12 @@ const Shipping = () => {
     }, []);
 
 
-    const [address, setAddress] = useState(getShippingInfo.address);
-    const [city, setCity] = useState(getShippingInfo.city);
-    const [state, setState] = useState(getShippingInfo.state);
-    const [country, setCountry] = useState(getShippingInfo.country);
-    const [pinCode, setPinCode] = useState(getShippingInfo.pinCode);
-    const [phoneNo, setPhoneNo] = useState(getShippingInfo.phoneNo);
+    const [address, setAddress] = useState(getShippingInfo()?.address);
+    const [city, setCity] = useState(getShippingInfo()?.city);
+    const [state, setState] = useState(getShippingInfo()?.state);
+    const [country, setCountry] = useState(getShippingInfo()?.country);
+    const [pinCode, setPinCode] = useState(getShippingInfo()?.pinCode);
+    const [phoneNo, setPhoneNo] = useState(getShippingInfo()?.phoneNo);
 
 
     const shippingSubmit = async (e) => {

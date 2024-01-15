@@ -30,9 +30,16 @@ class SessionHelper{
     setShippingInfo(ShippingInfo){
         localStorage.setItem("ShippingInfo" ,JSON.stringify(ShippingInfo))
     }
-    getShippingInfo(){
-        return JSON.parse(localStorage.getItem("ShippingInfo"))
+    getShippingInfo() {
+        try {
+            return JSON.parse(localStorage.getItem("ShippingInfo")) || null;
+        } catch (error) {
+            console.error("Error parsing ShippingInfo:", error);
+            return null;
+        }
     }
+
+
 
 
 
@@ -55,6 +62,14 @@ class SessionHelper{
         localStorage.clear()
         window.location.href="/login"
     }
+
+
+
+    //sassion  Storage
+    setConfirmOrder(OrderInfo){
+        sessionStorage.setItem("OrderInfo", JSON.stringify(OrderInfo))
+    }
+
 }
 
-export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
+export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,setConfirmOrder,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();

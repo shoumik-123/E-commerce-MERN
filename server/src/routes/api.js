@@ -4,6 +4,7 @@ const router = express.Router();
 const ProductController = require("../controllers/ProductController");
 const UsersController = require("../controllers/UserController");
 const OrderController = require("../controllers/OrderController");
+const PaymentController = require("../controllers/PaymentController");
 const AuthVerifyMiddleware = require("../middleware/AuthVerifyMiddleware");
 const authorizeRoles = require("../middleware/AuthRoles").authorizeRoles;
 
@@ -29,7 +30,11 @@ router.post("/review",AuthVerifyMiddleware, ProductController.createProductRevie
 router.get("/reviews" , ProductController.getAllReviews)
 router.post("/deleteReviews" , AuthVerifyMiddleware , ProductController.deleteReview)
 
-//Order API
+//PaymentController
+router.post("/payment/process" , AuthVerifyMiddleware ,PaymentController.ProcessPayment)
+router.get("/stripeApiKey" , AuthVerifyMiddleware ,PaymentController.SendStripeApiKey)
+
+//ConfirmOrder API
 router.post("/newOrder", AuthVerifyMiddleware,OrderController.NewOrder)
 router.get("/myOrder", AuthVerifyMiddleware,OrderController.GetMyOrder)
 router.get("/order/:id", AuthVerifyMiddleware ,OrderController.GetSingleOrder)
