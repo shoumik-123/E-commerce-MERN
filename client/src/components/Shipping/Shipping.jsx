@@ -8,17 +8,14 @@ import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStatio
 import { Country, State } from "country-state-city";
 import {GetUserDetails} from "../../APIRequest/UserApi.js";
 import CheckoutSteps from "./CheckOutStep.jsx";
-
-const shippingInfo =  {
-    address:"a",
-    city:"a",
-    state:"52",
-    country:"55",
-    pinCode:"a",
-    phoneNo:"a"
-}
+import {IsMobile} from "../../helper/FormHelper.js";
+import {toast} from "react-toastify";
+import {getShippingInfo, setShippingInfo} from "../../helper/SassionHelper.js";
+import {useNavigate} from "react-router-dom";
 
 const Shipping = () => {
+
+    const navigate  = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,15 +30,24 @@ const Shipping = () => {
     }, []);
 
 
-    const [address, setAddress] = useState(shippingInfo.address);
-    const [city, setCity] = useState(shippingInfo.city);
-    const [state, setState] = useState(shippingInfo.state);
-    const [country, setCountry] = useState(shippingInfo.country);
-    const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
-    const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
+    const [address, setAddress] = useState(getShippingInfo.address);
+    const [city, setCity] = useState(getShippingInfo.city);
+    const [state, setState] = useState(getShippingInfo.state);
+    const [country, setCountry] = useState(getShippingInfo.country);
+    const [pinCode, setPinCode] = useState(getShippingInfo.pinCode);
+    const [phoneNo, setPhoneNo] = useState(getShippingInfo.phoneNo);
 
 
-    const shippingSubmit = () => {
+    const shippingSubmit = async (e) => {
+        e.preventDefault()
+
+        if (!IsMobile(phoneNo)){
+            toast.error("Phone Number is not Valid")
+        }
+        else {
+            await setShippingInfo({address, city, state, country, pinCode, phoneNo })
+            navigate("/order/confirm")
+        }
 
     };
     return (

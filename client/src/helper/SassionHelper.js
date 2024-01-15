@@ -12,9 +12,9 @@ class SessionHelper{
     getUserDetails(){
         return JSON.parse(localStorage.getItem("UserDetails"))
     }
-//cart
 
 
+    //cart
     setCart(cartItems) {
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
@@ -22,6 +22,16 @@ class SessionHelper{
     getCart() {
         const storedCartItems = localStorage.getItem("cartItems");
         return storedCartItems ? JSON.parse(storedCartItems) : [];
+    }
+
+
+    //Shipping  Info
+
+    setShippingInfo(ShippingInfo){
+        localStorage.setItem("ShippingInfo" ,JSON.stringify(ShippingInfo))
+    }
+    getShippingInfo(){
+        return JSON.parse(localStorage.getItem("ShippingInfo"))
     }
 
 
@@ -47,4 +57,4 @@ class SessionHelper{
     }
 }
 
-export const {setToken , getToken , setUserDetails ,getUserDetails,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
+export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
