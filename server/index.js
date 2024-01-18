@@ -7,9 +7,7 @@ require('dotenv').config({path:"./config.env"})
 // Mongodb DB connection
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DB_URI, {
-    // You can add more options as needed
-})
+mongoose.connect(process.env.DB_URI)
     .then(() => {
         console.log("MongoDB Connected");
     })
@@ -18,11 +16,17 @@ mongoose.connect(process.env.DB_URI, {
     });
 
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_AIP_KEY,
-    api_secret: process.env.CLOUDINARY_AIP_SECRET
-});
+
+try {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_NAME,
+        api_key: process.env.CLOUDINARY_AIP_KEY,
+        api_secret: process.env.CLOUDINARY_AIP_SECRET
+    });
+    console.log("Cloudinary configured successfully");
+} catch (error) {
+    console.error("Cloudinary configuration failed:", error);
+}
 
 
 

@@ -65,11 +65,13 @@ class SessionHelper{
 
 
 
-    //sassion  Storage
+    //session  Storage
     setConfirmOrder(OrderInfo){
         sessionStorage.setItem("OrderInfo", JSON.stringify(OrderInfo))
     }
+    getConfirmOrder(){
+        return JSON.parse(sessionStorage.getItem("OrderInfo"));    }
 
 }
 
-export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,setConfirmOrder,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
+export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,setConfirmOrder,getConfirmOrder,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();

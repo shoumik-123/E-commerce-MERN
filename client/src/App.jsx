@@ -23,6 +23,7 @@ import ForgetPasswordPage from "./pages/ForgetPassword/ForgetPasswordPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
 
 
 
@@ -52,6 +53,7 @@ function App() {
                           <Route path="/login/shipping" element={<Navigate to="/shipping" />} />
                           <Route path="/shipping" element={<ShippingPage />} />
                           <Route path="/order/confirm" element={<OrderPage />} />
+                          <Route path="/process/payment" element={<PaymentPage />} />
 
                       </>
                   ):(
