@@ -37,7 +37,7 @@ const SideBar = ({ onPriceChange, onCategoryChange, onSubcategoryChange ,onRatin
     const categories = [
         { label: 'None', value: '' },
         { label: 'Electronics', value: 'Electronics', subcategories: ['Laptop', 'Mobile', 'Guitar', 'HeadPhone'] },
-        { label: 'Dress', value: 'Dress', subcategories: ['Pant', 'T-Shirt', 'Bra'] },
+        { label: 'Dress', value: 'Dress', subcategories: ['Pant', 'T-Shirt', 'Shoe'] },
         { label: 'Vehicles', value: 'Vehicles', subcategories: ['Bike'] },
         { label: 'Others', value: 'Others', subcategories: ['Lighter', 'Glass'] },
     ];

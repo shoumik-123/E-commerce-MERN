@@ -44,6 +44,8 @@ class SessionHelper{
 
 
 
+
+
     //for recovery
     setEmail(Email){
         localStorage.setItem("Email" , Email)
@@ -70,8 +72,26 @@ class SessionHelper{
         sessionStorage.setItem("OrderInfo", JSON.stringify(OrderInfo))
     }
     getConfirmOrder(){
-        return JSON.parse(sessionStorage.getItem("OrderInfo"));    }
+        return JSON.parse(sessionStorage.getItem("OrderInfo"));
+    }
 
+
+    //for 3D Model
+    setInfoFor3D(InfoFor3D){
+        sessionStorage.setItem("InfoFor3D" , JSON.stringify(InfoFor3D))
+    }
+    getInfoFor3D(){
+        return JSON.parse(sessionStorage.getItem("InfoFor3D"))
+    }
 }
 
-export const {setToken , getToken , setUserDetails ,getUserDetails  ,setShippingInfo,getShippingInfo,setConfirmOrder,getConfirmOrder,removeSession ,setCart,getCart,setEmail,getEmail,setOTP,getOTP} = new SessionHelper();
+export const {
+    setInfoFor3D,getInfoFor3D,
+    setToken , getToken ,
+    setUserDetails ,getUserDetails  ,
+    setShippingInfo,getShippingInfo,
+    setConfirmOrder,getConfirmOrder,
+    removeSession ,
+    setCart,getCart,
+    setEmail,getEmail,
+    setOTP,getOTP} = new SessionHelper();

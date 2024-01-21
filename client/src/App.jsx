@@ -24,6 +24,8 @@ import CartPage from "./pages/CartPage.jsx";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
+import Shoe3D from "./components/3D/Shoe3d/Shoe3D.jsx";
+import View3D from "./components/3D/View3d.jsx";
 
 
 
@@ -73,6 +75,10 @@ function App() {
                   <Route path="/search" element={<SearchPage/>}></Route>
                   <Route path="/products/:keyword" element={<ProductsPage/>}></Route>
                   <Route path="/cart" element={<CartPage/>}></Route>
+
+
+
+                  <Route path="/view3d" element={<View3D/>}></Route>
 
 
               </Routes>

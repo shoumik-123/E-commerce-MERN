@@ -28,12 +28,17 @@
     max-width: 100%;
 }
 
-.detailsBlock-1 > h1 {
+.detailsBlock-1{
+    display: flex;
+    flex-direction: row;
+}
+
+.detailsBlock-1 > div > h1 {
     color: rgb(255, 255, 255);
     font: 600 42px "Roboto";
 }
 
-.detailsBlock-1 > p {
+.detailsBlock-1>div > p {
     color: rgba(166, 166, 166, 0.79);
     font: 200 15px cursive;
     margin-bottom: 15px;
@@ -91,7 +96,7 @@
     background: rgba(0, 0, 0, 0.2);
 }
 
-.detailsBlock-3-1 > button:last-child {
+.detailsBlock-3-1 > button:last-child ,.Link3D{
     border: none;
     cursor: pointer;
     color: black;
@@ -104,7 +109,7 @@
     outline: none;
 }
 
-.detailsBlock-3-1 > button:last-child:hover {
+.detailsBlock-3-1 > button:last-child:hover .Link3D:hover{
     background-color: #52385D;
     color: white;
     transform: scale(1.08);
@@ -220,12 +225,12 @@
         align-items: center;
     }
 
-    .detailsBlock-1 > h2 {
+    .detailsBlock-1 > div > h1 {
         font-size: 2.8vmax;
         text-align: center;
     }
 
-    .detailsBlock-1 > p {
+    .detailsBlock-1 > div > p {
         text-align: center;
         font-size: 1vmax;
     }

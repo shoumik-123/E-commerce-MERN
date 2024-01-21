@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
-import { useParams } from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import { getProductDetails } from '../../APIRequest/ProductAPI.js';
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard.jsx";
 import {addItemToCart} from "../../APIRequest/CartApi.js";
 import {toast} from "react-toastify";
+import {setInfoFor3D} from "../../helper/SassionHelper.js";
+import {extractKeyValuePairs} from "../../helper/3D-Helper.js";
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -52,6 +54,15 @@ const ProductDetails = () => {
             toast.success("Item Added to Cart")
         }
     };
+    const navigate = useNavigate()
+    const view3dFunction = async () => {
+
+        const infoFor3D  = await extractKeyValuePairs(product?.description ,product?.subcategory)
+
+        setInfoFor3D(infoFor3D)
+        navigate("/view3d")
+
+    };
     return (
         <Fragment>
             <div className="productDetails">
@@ -67,8 +78,15 @@ const ProductDetails = () => {
                 </Carousel>
                 <div>
                     <div className="detailsBlock-1">
-                        <h1>{product?.name}</h1>
-                        <p> Product code : #{product?._id}</p>
+                        <div>
+                            <h1>{product?.name}</h1>
+                            <p> Product code : #{product?._id}</p>
+                        </div>
+                        <div>
+                            <button onClick={view3dFunction} className="Link3D">View 3D</button>
+                            {/*<Link to="/shoe3d"></Link>*/}
+                        </div>
+
                     </div>
 
                     <div className="detailsBlock-2">

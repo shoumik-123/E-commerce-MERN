@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+.wrapper {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: linear-gradient(45deg, rgb(125, 126, 125) 0%, rgb(14, 14, 14) 100%);
+    color:white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.card {
+    height: 60vh;
+    border-radius: 13px;
+    box-shadow: 20px 30px 33px #fdd23867;
+    padding: 2rem;
+    width: 60vw;
+    background: #FDD138;
+    position: absolute;
+    left: 18%;
+}
+
+.product-canvas {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgb(125, 126, 125) 0%, rgb(14, 14, 14) 100%);
+    box-shadow:  10px 15px 15px 6px #FDD138;
+    border-radius: 0px;
+    margin-bottom:20px
+
+}
+
+.goBackBtnFrom3dPage {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 1);
+    height: 8%;
+    background-color: #FDD138;
+    border: none;
+    padding: 1vmax;
+    width: 10%;
+    font: 500 16px "Roboto";
+    cursor: pointer;
+    color: black;
+    transition: all 0.5s;
+    position: fixed;
+    bottom: 2%;
+}
+
+.body3D{
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, rgba(125, 125, 126, 0.99) 0%, rgb(14, 14, 14) 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
