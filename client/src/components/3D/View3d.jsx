@@ -4,10 +4,12 @@ import { getInfoFor3D } from "../../helper/SassionHelper.js";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+
 const View3D = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+
         const subcategory = getInfoFor3D().subcategory;
 
         if (subcategory === "Laptop") {
