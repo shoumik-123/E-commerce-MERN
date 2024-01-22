@@ -4,9 +4,9 @@ import { CardNumberElement, CardCvcElement, CardExpiryElement, useStripe, useEle
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import EventIcon from "@material-ui/icons/Event";
-import { getConfirmOrder } from "../../helper/SassionHelper.js";
+import { getConfirmOrder } from "../../../helper/SassionHelper.js";
 
-const PaymentForm = ({ onSubmit, payBtnRef }) => {
+const StripePaymentForm = ({ onSubmit, payBtnRef }) => {
     const stripe = useStripe();
     const elements = useElements();
     const orderInfo = getConfirmOrder();
@@ -46,7 +46,7 @@ const PaymentForm = ({ onSubmit, payBtnRef }) => {
     );
 };
 
-export default PaymentForm;
+export default StripePaymentForm;
 
 
 
@@ -64,7 +64,7 @@ export default PaymentForm;
 // import { getConfirmOrder } from "../../helper/SassionHelper.js";
 // import {ProcessPayment} from "../../APIRequest/PaymentApi.js";
 //
-// const PaymentForm = ({ onSubmit, payBtnRef ,onClientSecretReceived, stripe, elements }) => {
+// const StripePaymentForm = ({ onSubmit, payBtnRef ,onClientSecretReceived, stripe, elements }) => {
 //
 //     const orderInfo = getConfirmOrder();
 //
@@ -121,5 +121,5 @@ export default PaymentForm;
 //     );
 // };
 //
-// export default PaymentForm;
+// export default StripePaymentForm;
 //

@@ -14,7 +14,7 @@ exports.ProcessPayment = async (req, res) => {
         res.status(200).json({ status: "success", client_secret: myPayment.client_secret });
     } catch (e) {
         console.log("error :", e);
-        res.status(500).json({ status: "error", message: "Payment processing failed" });
+        res.status(500).json({ status: "error", message: "StripePayment processing failed" });
     }
 };
 

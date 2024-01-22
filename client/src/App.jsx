@@ -23,9 +23,11 @@ import ForgetPasswordPage from "./pages/ForgetPassword/ForgetPasswordPage.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import ShippingPage from "./pages/ShippingPage.jsx";
 import OrderPage from "./pages/OrderPage.jsx";
-import PaymentPage from "./pages/PaymentPage.jsx";
+import PaymentStripePage from "./pages/PaymentStripePage.jsx";
 import Shoe3D from "./components/3D/Shoe3d/Shoe3D.jsx";
 import View3D from "./components/3D/View3d.jsx";
+import PaymentOptionPage from "./pages/PaymentOptionPage.jsx";
+import PaymentBkashPage from "./pages/PaymentBkashPage.jsx";
 
 
 
@@ -55,7 +57,9 @@ function App() {
                           <Route path="/login/shipping" element={<Navigate to="/shipping" />} />
                           <Route path="/shipping" element={<ShippingPage />} />
                           <Route path="/order/confirm" element={<OrderPage />} />
-                          <Route path="/process/payment" element={<PaymentPage />} />
+                          <Route path="/process/payment" element={<PaymentOptionPage />} />
+                          <Route path="/process/payment/stripe" element={<PaymentStripePage />} />
+                          <Route path="/process/payment/bkash" element={<PaymentBkashPage />} />
 
                       </>
                   ):(

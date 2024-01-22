@@ -1,0 +1,77 @@
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-5deg); }
+    50% { transform: translateX(5px) rotate(5deg); }
+    75% { transform: translateX(-5px) rotate(-5deg); }
+    100% { transform: translateX(0); }
+}
+
+.payment-option{
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    align-items: center;
+    background: linear-gradient(55deg, rgba(125, 125, 126, 0.99) 0%, rgb(14, 14, 14) 100%);
+    position: fixed;
+    top: 0%;
+    left: 0;
+}
+.payment-option-selector {
+    border: 1px solid rgba(221, 221, 221, 0.2);
+    padding: 20px;
+    border-radius: 5px;
+    width: 25vw;
+    background: linear-gradient(312deg, rgba(89, 89, 89, 0.93) 0%, rgb(14, 14, 14) 100%);
+    position: absolute;
+    left: 36%;
+    top: 30%;
+    animation: shake 0.5s ease-in-out;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.56);
+}
+
+.payment-option-selector h2 {
+    text-align: center;
+    font: 400 1.3vmax "Roboto";
+    padding: 1.3vmax;
+    width: 55%;
+    border-bottom: 1px solid #fff;
+    margin: auto;
+
+}
+.option-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    padding: 2vmax;
+    justify-content: space-evenly;
+    height: 80%;
+    transition: all 0.5s;
+}
+.payment-option-selector label {
+    padding:16px 20px ;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 4px;
+    font: 300 16px cursive;
+    outline: none;
+    margin: 5px 0;
+}
+.payment-option-selector label:hover{
+    background: #FDD138;
+    color: black;
+}
+
+.payment-option-selector input {
+    margin-right: 20px;
+
+}
+
+.payment-option-selector label,
+.payment-option-selector input {
+    transition: all 0.3s;
+}
+.payment-option-radio:hover{
+    background: #FDD138;
+}

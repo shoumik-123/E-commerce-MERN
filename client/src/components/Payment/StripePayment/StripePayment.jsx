@@ -1,15 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { StripeApiKey as fetchStripeApiKey } from "../../APIRequest/PaymentApi.js";
-import CheckoutSteps from "../Shipping/CheckOutStep.jsx";
-import PaymentForm from "./PaymentForm";
+import { StripeApiKey as fetchStripeApiKey } from "../../../APIRequest/PaymentApi.js";
+import CheckoutSteps from "../../Shipping/CheckOutStep.jsx";
+import StripePaymentForm from "./StripePaymentForm.jsx";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom"; // Import VpnKeyIcon
 
-const Payment = () => {
+const StripePayment = () => {
     const [stripeApiKey, setStripeApiKey] = useState(null);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Payment = () => {
     const navigate = useNavigate()
     const handlePaymentSubmit = () => {
         try {
-            toast.success("Payment Successfully")
+            toast.success("StripePayment Successfully")
             navigate("/products")
         }
         catch (e) {
@@ -44,7 +44,7 @@ const Payment = () => {
             <div className="paymentContainer">
                 {stripeApiKey && (
                     <Elements stripe={stripeApiKey}>
-                        <PaymentForm onSubmit={handlePaymentSubmit} />
+                        <StripePaymentForm onSubmit={handlePaymentSubmit} />
                     </Elements>
                 )}
                 <EventIcon />
@@ -54,7 +54,7 @@ const Payment = () => {
     );
 };
 
-export default Payment;
+export default StripePayment;
 
 
 
@@ -68,14 +68,14 @@ export default Payment;
 // import { loadStripe } from '@stripe/stripe-js';
 // import { StripeApiKey as fetchStripeApiKey } from '../../APIRequest/PaymentApi.js';
 // import CheckoutSteps from '../Shipping/CheckOutStep.jsx';
-// import PaymentForm from './PaymentForm';
+// import StripePaymentForm from './StripePaymentForm';
 // import EventIcon from '@material-ui/icons/Event';
 // import VpnKeyIcon from '@material-ui/icons/VpnKey';
 // import { toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 // import { getShippingInfo, getUserDetails } from '../../helper/SassionHelper.js';
 //
-// const Payment = () => {
+// const StripePayment = () => {
 //     const navigate = useNavigate();
 //     const [stripeApiKey, setStripeApiKey] = useState(null);
 //     const payBtn = useRef(null);
@@ -144,7 +144,7 @@ export default Payment;
 //             } else {
 //                 if (result.paymentIntent.status === 'succeeded') {
 //                     // Handle successful payment
-//                     toast.success('Payment Successful');
+//                     toast.success('StripePayment Successful');
 //                     navigate('/products');
 //                 } else {
 //                     toast.error("There's some issue while processing payment ");
@@ -162,10 +162,10 @@ export default Payment;
 //         <Fragment>
 //             <CheckoutSteps activeStep={2} />
 //             <div className="paymentContainer">
-//                 {/* Ensure that Elements wraps the entire Payment component */}
+//                 {/* Ensure that Elements wraps the entire StripePayment component */}
 //                 {stripeApiKey && (
 //                     <Elements stripe={stripeApiKey}>
-//                         <PaymentForm
+//                         <StripePaymentForm
 //                             onSubmit={handlePaymentSubmit}
 //                             onClientSecretReceived={handleClientSecretReceived}
 //                             payBtnRef={payBtn}
@@ -179,4 +179,4 @@ export default Payment;
 //     );
 // };
 //
-// export default Payment;
+// export default StripePayment;
