@@ -62,7 +62,7 @@ export default StripePaymentForm;
 // import VpnKeyIcon from "@material-ui/icons/VpnKey";
 // import EventIcon from "@material-ui/icons/Event";
 // import { getConfirmOrder } from "../../helper/SassionHelper.js";
-// import {ProcessPayment} from "../../APIRequest/PaymentApi.js";
+// import {ProcessPayment} from "../../APIRequest/PaymentStripeApi.js";
 //
 // const StripePaymentForm = ({ onSubmit, payBtnRef ,onClientSecretReceived, stripe, elements }) => {
 //

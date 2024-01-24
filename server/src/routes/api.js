@@ -4,9 +4,12 @@ const router = express.Router();
 const ProductController = require("../controllers/ProductController");
 const UsersController = require("../controllers/UserController");
 const OrderController = require("../controllers/OrderController");
-const PaymentController = require("../controllers/PaymentController");
+const PaymentStripeController = require("../controllers/PaymentStripeController");
 const AuthVerifyMiddleware = require("../middleware/AuthVerifyMiddleware");
 const authorizeRoles = require("../middleware/AuthRoles").authorizeRoles;
+const PaymentBkashController = require("../controllers/PaymentBkashController");
+const BkashVerifyMiddleware = require("../middleware/BkashVerifyMiddleware");
+
 
 
 //User API
@@ -30,9 +33,12 @@ router.post("/review",AuthVerifyMiddleware, ProductController.createProductRevie
 router.get("/reviews" , ProductController.getAllReviews)
 router.post("/deleteReviews" , AuthVerifyMiddleware , ProductController.deleteReview)
 
-//PaymentController
-router.post("/payment/process" , AuthVerifyMiddleware ,PaymentController.ProcessPayment)
-router.get("/stripeApiKey" , AuthVerifyMiddleware ,PaymentController.SendStripeApiKey)
+//PaymentStripeController
+router.post("/payment/process" , AuthVerifyMiddleware ,PaymentStripeController.ProcessPayment)
+router.get("/stripeApiKey" , AuthVerifyMiddleware ,PaymentStripeController.SendStripeApiKey)
+
+//Bkash  Payment
+router.post('/bkash/payment/create',BkashVerifyMiddleware, PaymentBkashController.PaymentCreate)
 
 //ConfirmOrder API
 router.post("/newOrder", AuthVerifyMiddleware,OrderController.NewOrder)

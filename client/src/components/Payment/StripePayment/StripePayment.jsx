@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { StripeApiKey as fetchStripeApiKey } from "../../../APIRequest/PaymentApi.js";
+import { StripeApiKey as fetchStripeApiKey } from "../../../APIRequest/PaymentStripeApi.js";
 import CheckoutSteps from "../../Shipping/CheckOutStep.jsx";
 import StripePaymentForm from "./StripePaymentForm.jsx";
 import EventIcon from "@material-ui/icons/Event";
@@ -66,7 +66,7 @@ export default StripePayment;
 // import React, { Fragment, useEffect, useRef, useState } from 'react';
 // import { CardNumberElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 // import { loadStripe } from '@stripe/stripe-js';
-// import { StripeApiKey as fetchStripeApiKey } from '../../APIRequest/PaymentApi.js';
+// import { StripeApiKey as fetchStripeApiKey } from '../../APIRequest/PaymentStripeApi.js';
 // import CheckoutSteps from '../Shipping/CheckOutStep.jsx';
 // import StripePaymentForm from './StripePaymentForm';
 // import EventIcon from '@material-ui/icons/Event';
