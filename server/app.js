@@ -13,6 +13,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
+const path = require("path");
 
 // Security middleware Implement
 app.use(cors())
@@ -31,6 +32,14 @@ app.use(fileUpload())
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });
 app.use(limiter);
 
+
+
+//Manage front end routing
+app.use(express.static('client/dist'))
+app.get("*", function (req, res) {
+    // req.sendFile(path.resolve(__dirname,'client','build','index.html'))
+    res.sendFile(path.resolve(__dirname,'../client/dist/index.html'))
+})
 
 
 
