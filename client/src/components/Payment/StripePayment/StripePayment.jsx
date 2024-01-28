@@ -7,9 +7,19 @@ import StripePaymentForm from "./StripePaymentForm.jsx";
 import EventIcon from "@material-ui/icons/Event";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import {toast} from "react-toastify";
-import {useNavigate} from "react-router-dom"; // Import VpnKeyIcon
+import {useNavigate} from "react-router-dom";
+import {getConfirmOrder, getMyOrders, setConfirmOrder, setMyOrders} from "../../../helper/SassionHelper.js";
+import {CreateOrder} from "../../../APIRequest/OrderApi.js";
 
 const StripePayment = () => {
+    const cartItems= getConfirmOrder().cartItems
+    console.log(typeof (cartItems),"jsdbsjudbf")
+    const itemsPrice= getConfirmOrder().itemsPrice
+    const shippingCharges= getConfirmOrder().shippingCharges
+    const shippingInfo= getConfirmOrder().shippingInfo
+    const tax= getConfirmOrder().tax
+    const totalPrice= getConfirmOrder().totalPrice
+
     const [stripeApiKey, setStripeApiKey] = useState(null);
 
     useEffect(() => {
@@ -28,10 +38,28 @@ const StripePayment = () => {
     }, []);
 
     const navigate = useNavigate()
-    const handlePaymentSubmit = () => {
+    const handlePaymentSubmit = async () => {
         try {
-            toast.success("StripePayment Successfully")
-            navigate("/products")
+            toast.success("Stripe Payment Successfully")
+            const orderInfo ={
+                cartItems,
+                itemsPrice,
+                shippingCharges,
+                shippingInfo,
+                tax,
+                totalPrice,
+                paymentInfo : {
+                    id:"demo payment id",
+                    status:"success"
+                }
+            }
+
+            setConfirmOrder(orderInfo)
+            const newOrderData = await CreateOrder();
+
+            console.log("New Order Data:", newOrderData);
+            setMyOrders([cartItems, newOrderData]);
+            navigate("/success")
         }
         catch (e) {
             console.log(e)

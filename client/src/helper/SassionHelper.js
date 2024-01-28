@@ -13,6 +13,19 @@ class SessionHelper{
         return JSON.parse(localStorage.getItem("UserDetails"))
     }
 
+    //set my orders
+    setMyOrders(MyOrders){
+        try {
+            console.log("Setting MyOrders in localStorage:", MyOrders);
+            localStorage.setItem("MyOrders", JSON.stringify(MyOrders));
+        } catch (error) {
+            console.error("Error setting MyOrders in localStorage:", error);
+        }
+    }
+    getMyOrders(){
+        return JSON.parse(localStorage.getItem("MyOrders"))
+    }
+
 
     //cart
     setCart(cartItems) {
@@ -62,6 +75,7 @@ class SessionHelper{
 
     removeSession(){
         localStorage.clear()
+        sessionStorage.clear()
         window.location.href="/login"
     }
 
@@ -69,11 +83,19 @@ class SessionHelper{
 
     //session  Storage
     setConfirmOrder(OrderInfo){
+        // let existingData = JSON.parse(sessionStorage.getItem("OrderInfo")) || {};
+        // existingData.paymentInfo = newData;
+        // sessionStorage.setItem("OrderInfo", JSON.stringify(existingData));
+
         sessionStorage.setItem("OrderInfo", JSON.stringify(OrderInfo))
     }
     getConfirmOrder(){
         return JSON.parse(sessionStorage.getItem("OrderInfo"));
     }
+
+
+
+
 
 
     //for 3D Model
@@ -89,6 +111,7 @@ export const {
     setInfoFor3D,getInfoFor3D,
     setToken , getToken ,
     setUserDetails ,getUserDetails  ,
+    setMyOrders,getMyOrders,
     setShippingInfo,getShippingInfo,
     setConfirmOrder,getConfirmOrder,
     removeSession ,

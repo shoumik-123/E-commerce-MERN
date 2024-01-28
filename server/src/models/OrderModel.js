@@ -38,5 +38,5 @@ const orderSchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now,},
 });
 
-const OrderModel =mongoose.model("ConfirmOrder", orderSchema);
+const OrderModel =mongoose.model("Order", orderSchema);
 module.exports = OrderModel;

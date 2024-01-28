@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Typography } from "@material-ui/core";
 import { CardNumberElement, CardCvcElement, CardExpiryElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import CreditCardIcon from "@material-ui/icons/CreditCard";

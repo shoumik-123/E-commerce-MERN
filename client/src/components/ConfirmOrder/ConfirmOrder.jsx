@@ -10,18 +10,21 @@ const ConfirmOrder = () => {
     const userDetails = getUserDetails();
     const cartItems = getCart();
 
+
     const address = `${shippingInfo?.address}, ${shippingInfo?.city}, ${shippingInfo?.state}, ${shippingInfo?.pinCode}, ${shippingInfo?.country}`
 
-    const subtotal = cartItems.reduce((acc,item)=>acc+item.price * item.quantity,0)
+    const itemsPrice = cartItems.reduce((acc,item)=>acc+item.price * item.quantity,0)
 
-    const shippingCharges = subtotal > 1000 ? 100 : 200;
-    const tax =  subtotal >  10000 ? (  subtotal * 0.01) :(subtotal* 0.018)
-    const totalPrice =  subtotal + tax +  shippingCharges
+    const shippingCharges = itemsPrice > 1000 ? 100 : 200;
+    const tax =  itemsPrice >  10000 ? (  itemsPrice * 0.01) :(itemsPrice* 0.018)
+    const totalPrice =  itemsPrice + tax +  shippingCharges
 
     const navigate = useNavigate()
     const proceedToPayment =async () => {
         const data ={
-            subtotal,
+            shippingInfo,
+            cartItems,
+            itemsPrice,
             shippingCharges,
             tax,
             totalPrice
@@ -83,7 +86,7 @@ const ConfirmOrder = () => {
                         <div>
                             <div>
                                 <p>Subtotal:</p>
-                                <span>৳ {subtotal}</span>
+                                <span>৳ {itemsPrice}</span>
                             </div>
                             <div>
                                 <p>Shipping Charges:</p>

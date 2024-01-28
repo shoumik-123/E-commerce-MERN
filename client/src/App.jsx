@@ -28,6 +28,9 @@ import Shoe3D from "./components/3D/Shoe3d/Shoe3D.jsx";
 import View3D from "./components/3D/View3d.jsx";
 import PaymentOptionPage from "./pages/PaymentOptionPage.jsx";
 import PaymentBkashPage from "./pages/PaymentBkashPage.jsx";
+import SuccessPayment from "./components/Payment/SuccessPayment.jsx";
+import MyOrderPage from "./pages/MyOrderPage.jsx";
+import OrderDetailsPage from "./pages/OrderDetailsPage.jsx";
 
 
 
@@ -60,6 +63,9 @@ function App() {
                           <Route path="/process/payment" element={<PaymentOptionPage />} />
                           <Route path="/process/payment/stripe" element={<PaymentStripePage />} />
                           <Route path="/process/payment/bkash" element={<PaymentBkashPage />} />
+                          <Route path="/success" element={<SuccessPayment />} />
+                          <Route path="/orders" element={<MyOrderPage />} />
+                          <Route path="/order/:id" element={<OrderDetailsPage />} />
 
                       </>
                   ):(
