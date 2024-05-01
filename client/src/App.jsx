@@ -31,6 +31,9 @@ import PaymentBkashPage from "./pages/PaymentBkashPage.jsx";
 import SuccessPayment from "./components/Payment/SuccessPayment.jsx";
 import MyOrderPage from "./pages/MyOrderPage.jsx";
 import OrderDetailsPage from "./pages/OrderDetailsPage.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+import ProductList from "./components/Admin/ProductList.jsx";
+import NewProduct from "./components/Admin/NewProduct.jsx";
 
 
 
@@ -67,6 +70,20 @@ function App() {
                           <Route path="/orders" element={<MyOrderPage />} />
                           <Route path="/order/:id" element={<OrderDetailsPage />} />
 
+
+                          {/*admin*/}
+                          <Route
+                              path="/admin/dashboard"
+                              element={role === 'admin' ? <DashboardPage/> : <Navigate to="/" />}
+                          />
+                          <Route
+                              path="/admin/products"
+                              element={role === 'admin' ? <ProductList/> : <Navigate to="/" />}
+                          />
+                          <Route
+                              path="/admin/product"
+                              element={role === 'admin' ? <NewProduct/> : <Navigate to="/" />}
+                          />
                       </>
                   ):(
                       <>

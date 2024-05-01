@@ -1,0 +1,35 @@
+.payment-form {
+    width: 22%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.payment-input {
+    padding: 1vmax 4vmax;
+    padding-right: 1vmax;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.267);
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.payment-submit {
+    border: none;
+    background-color: #FDD138;
+    color: black;
+    font: 300 0.9vmax "Roboto";
+    width: 100%;
+    padding: 0.8vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    outline: none;
+}
+
+.payment-submit:hover {
+    background-color: #662D91;
+    color: white;}

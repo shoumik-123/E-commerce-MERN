@@ -1,98 +1,113 @@
-import React from 'react';
+import React, {Fragment, useState} from 'react';
 import { Typography } from "@material-ui/core";
 import { CardNumberElement, CardCvcElement, CardExpiryElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import EventIcon from "@material-ui/icons/Event";
-import { getConfirmOrder } from "../../../helper/SassionHelper.js";
+import { toast } from "react-toastify";
+import { getConfirmOrder, setConfirmOrder, setMyOrders } from "../../../helper/SassionHelper.js";
+import { CreateOrder } from "../../../APIRequest/OrderApi.js";
+import { useNavigate } from "react-router-dom";
+import CheckoutSteps from "../../Shipping/CheckOutStep.jsx";
+import ("./Payment.css")
 
-const StripePaymentForm = ({ onSubmit, payBtnRef }) => {
+const StripePaymentForm = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     const stripe = useStripe();
     const elements = useElements();
-    const orderInfo = getConfirmOrder();
 
-    const handleSubmit = async (e) => {
+    const handlePaymentSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
-        if (!stripe || !elements) {
-            return;
+        try {
+            if (!stripe || !elements) {
+                throw new Error('Stripe.js has not loaded yet.');
+            }
+
+            const orderDetails = getConfirmOrder();
+            const orderInfo = {
+                cartItems: orderDetails.cartItems,
+                itemsPrice: orderDetails.itemsPrice,
+                shippingCharges: orderDetails.shippingCharges,
+                shippingInfo: orderDetails.shippingInfo,
+                tax: orderDetails.tax,
+                totalPrice: orderDetails.totalPrice,
+                paymentInfo: {
+                    id: 'demo_payment_id',
+                    status: 'success',
+                },
+            };
+
+            setConfirmOrder(orderInfo);
+            const newOrderData = await CreateOrder();
+            setMyOrders([...orderInfo.cartItems, newOrderData]);
+
+            navigate('/success');
+            toast.success("Payment Successfully");
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('An error occurred while processing the payment.');
+        } finally {
+            setIsLoading(false);
         }
-        onSubmit();
     };
 
     return (
-        <form className="paymentForm" onSubmit={(e) => handleSubmit(e)}>
-            <Typography>Card Info</Typography>
-            <div>
-                <CreditCardIcon />
-                <CardNumberElement className="paymentInput" />
-            </div>
-            <div>
-                <EventIcon />
-                <CardExpiryElement className="paymentInput" />
-            </div>
-            <div>
-                <VpnKeyIcon />
-                <CardCvcElement className="paymentInput" />
+        <Fragment>
+            <CheckoutSteps activeStep={2}/>
+            <div className="paymentContainer">
+                <form className="payment-form " onSubmit={handlePaymentSubmit}>
+                    <Typography variant="h6">Card Info</Typography>
+                    <div className="payment-input-container">
+                        <label>
+                            <CardNumberElement className="payment-input"/>
+                        </label>
+                    </div>
+                    <div className="payment-input-container">
+                        <label>
+                            <CardExpiryElement className="payment-input"/>
+                        </label>
+                    </div>
+                    <div className="payment-input-container">
+                        <label>
+                            <CardCvcElement className="payment-input"/>
+                        </label>
+                    </div>
+
+                    <button type="submit" className="payment-submit" disabled={isLoading}>
+                        {isLoading ? 'Processing...' : 'Pay Now'}
+                    </button>
+                </form>
             </div>
 
-            <input
-                type="submit"
-                value={`Pay - ₹${orderInfo && orderInfo.totalPrice}`}
-                ref={payBtnRef}
-                className="paymentFormBtn"
-            />
-        </form>
+
+        </Fragment>
+
     );
 };
 
 export default StripePaymentForm;
 
 
-
-
-
-
-
-
 // import React from 'react';
 // import { Typography } from "@material-ui/core";
-// import { CardNumberElement, CardCvcElement, CardExpiryElement } from "@stripe/react-stripe-js";
+// import { CardNumberElement, CardCvcElement, CardExpiryElement, useStripe, useElements } from "@stripe/react-stripe-js";
 // import CreditCardIcon from "@material-ui/icons/CreditCard";
 // import VpnKeyIcon from "@material-ui/icons/VpnKey";
 // import EventIcon from "@material-ui/icons/Event";
-// import { getConfirmOrder } from "../../helper/SassionHelper.js";
-// import {ProcessPayment} from "../../APIRequest/PaymentStripeApi.js";
+// import { getConfirmOrder } from "../../../helper/SassionHelper.js";
 //
-// const StripePaymentForm = ({ onSubmit, payBtnRef ,onClientSecretReceived, stripe, elements }) => {
-//
+// const StripePaymentForm = ({ onSubmit, payBtnRef }) => {
+//     const stripe = useStripe();
+//     const elements = useElements();
 //     const orderInfo = getConfirmOrder();
 //
-//     if (!stripe) {
-//         console.error('Stripe object is not defined');
-//         return null;
-//     }
-//
-//     const paymentData = {
-//         amount: Math.round(orderInfo.totalPrice ),
-//     };
 //     const handleSubmit = async (e) => {
 //         e.preventDefault();
 //
-//         try {
-//             const client_secret = await ProcessPayment(paymentData, stripe);
-//
-//             if (!elements) {
-//                 return;
-//             }
-//
-//
-//             onClientSecretReceived(client_secret);
-//             onSubmit();
+//         if (!stripe || !elements) {
+//             return;
 //         }
-//         catch (e) {
-//             console.log(e)
-//         }
+//         onSubmit();
 //     };
 //
 //     return (
@@ -122,4 +137,7 @@ export default StripePaymentForm;
 // };
 //
 // export default StripePaymentForm;
+//
+//
+//
 //

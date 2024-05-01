@@ -3,6 +3,9 @@ import store from "../redux/store/store.js";
 import {HideLoader, ShowLoader} from "../redux/state/SettingsSlice.js";
 
 const BaseURL = "http://localhost:8000/api/v1/";
+const config = {
+    headers:{"Content-type":"application/json"}
+}
 
 
 //Get all products
@@ -34,6 +37,22 @@ export async function getProductDetails(id) {
 
         let result = await axios.get(BaseURL + "product/" + id);
         store.dispatch(HideLoader())
+        return result.data['data'];
+    } catch (e) {
+        store.dispatch(HideLoader())
+        console.error("Error fetching products:", e);
+        return [];
+    }
+}
+
+
+export async function newReview(reviewData) {
+    store.dispatch(ShowLoader())
+    try {
+
+        let result = await axios.post(BaseURL + "review/" ,  reviewData );
+        store.dispatch(HideLoader())
+        console.log(result)
         return result.data['data'];
     } catch (e) {
         store.dispatch(HideLoader())

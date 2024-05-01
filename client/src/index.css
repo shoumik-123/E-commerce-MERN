@@ -34,3 +34,11 @@ body{
   color: white;
 }
 
+.redColor{
+  color: red!important;
+  font-weight: bold!important;
+}
+.greenColor{
+  color: green!important;
+  font-weight: bold!important;
+}

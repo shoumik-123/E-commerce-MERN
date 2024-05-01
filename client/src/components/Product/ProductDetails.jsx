@@ -1,17 +1,29 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Carousel from 'react-material-ui-carousel';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import { getProductDetails } from '../../APIRequest/ProductAPI.js';
+import {getProductDetails, newReview} from '../../APIRequest/ProductAPI.js';
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard.jsx";
 import {addItemToCart} from "../../APIRequest/CartApi.js";
 import {toast} from "react-toastify";
 import {setInfoFor3D} from "../../helper/SassionHelper.js";
 import {extractKeyValuePairs} from "../../helper/3D-Helper.js";
+import {
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Button,
+} from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
+
 
 const ProductDetails = () => {
     const { id } = useParams();
     const [product, setProduct] = useState();
+    const [open, setOpen] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -62,6 +74,20 @@ const ProductDetails = () => {
         setInfoFor3D(infoFor3D)
         navigate("/view3d")
 
+    };
+    const submitReviewToggle =  () => {
+        open ? setOpen(false) : setOpen(true);
+    };
+    const reviewSubmitHandler =async () => {
+        const myForm = new FormData();
+
+        myForm.set("rating", rating);
+        myForm.set("comment", comment);
+        myForm.set("productId", id);
+
+        const result = await newReview(myForm);
+
+        setOpen(false);
     };
     return (
         <Fragment>
@@ -117,11 +143,42 @@ const ProductDetails = () => {
                         Description : <p>{product?.description}</p>
                     </div>
 
-                    <button className="submitReview">Submit Review</button>
+                    <button onClick={submitReviewToggle} className="submitReview">Submit Review</button>
                 </div>
             </div>
 
             <h3 className="reviewsHeading">REVIEWS</h3>
+
+            <Dialog
+                aria-labelledby="simple-dialog-title"
+                open={open}
+                onClose={submitReviewToggle}
+            >
+                <DialogTitle>Submit Review</DialogTitle>
+                <DialogContent className="submitDialog">
+                    <Rating
+                        onChange={(e) => setRating(e.target.value)}
+                        value={rating}
+                        size="large"
+                    />
+
+                    <textarea
+                        className="submitDialogTextArea"
+                        cols="30"
+                        rows="5"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={submitReviewToggle} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={reviewSubmitHandler} color="primary">
+                        Submit
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             {product?.reviews && product?.reviews[0] ? (
                 <div className="reviews">

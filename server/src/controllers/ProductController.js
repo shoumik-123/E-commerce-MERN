@@ -59,6 +59,34 @@ exports.getAllProducts =async (req,res)=>{
     }
 
 }
+//get all products(Admin)
+exports.getAllProductsAdmin = async (req, res) => {
+    try {
+        // Query the database to get all products
+        const products = await ProductModel.find();
+
+        // If products are found, return them in the response
+        if (products) {
+            return res.status(200).json({
+                status: "success",
+                data: products
+            });
+        } else {
+            // If no products are found, return a failure response
+            return res.status(404).json({
+                status: "fail",
+                message: "No products found"
+            });
+        }
+    } catch (error) {
+        // If an error occurs, log it and return a server error response
+        console.error("Error fetching products:", error);
+        return res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+};
 //get Products Details
 exports.getProductDetails = async (req,res)=>{
     try{
